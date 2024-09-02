@@ -18,9 +18,8 @@ export async function create_index(
 		const slug = file
 			.replace(/(^|\/)[\d-]+/g, '$1')
 			.replace(/(\/index)?\.md$/, '')
-			// TODO hack to ignore versioning until we decide how to deal with it
-			.replace(/\/v0\d\//, '/');
-		if (slug.endsWith('/v02') || slug.endsWith('/v05')) continue;
+			// remove leading 0 from version number because it looks weird (we do it for proper ordering on the file system)
+			.replace(/\/v0(\d)/, '/v$1');
 
 		const text = await read(documents[key]).text();
 		let { metadata, body } = extract_frontmatter(text);

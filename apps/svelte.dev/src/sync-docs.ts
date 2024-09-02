@@ -6,7 +6,15 @@ import {
 	type Modules
 } from '@sveltejs/site-kit/markdown';
 import { spawn } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import {
+	cpSync,
+	existsSync,
+	mkdirSync,
+	readFileSync,
+	readdirSync,
+	rmdirSync,
+	writeFileSync
+} from 'node:fs';
 import path from 'node:path';
 import { format } from 'prettier';
 import ts from 'typescript';
@@ -14,15 +22,15 @@ import ts from 'typescript';
 // Adjust the following variables as needed for your local setup
 
 /** If true, will checkout the docs from Git */
-const use_git = false;
+const use_git = true;
 /** The path to your local Svelte repository (only relevant if `use_git` is `false`) */
 let svelte_repo_path = '../../../svelte';
 /** Which version of the Svelte docs to create */
-const svelte_version = 'v05';
+const svelte_version: string = 'v04';
 /** The path to your local SvelteKit repository (only relevant if `use_git` is `false`) */
 let sveltekit_repo_path = '../../../svelte-kit';
 /** Which version of the SvelteKit docs to create */
-const sveltekit_version = 'v02';
+const sveltekit_version: string = 'v01';
 
 export async function sync_docs() {
 	if (use_git) {
@@ -36,8 +44,23 @@ export async function sync_docs() {
 		const cwd = process.cwd();
 		process.chdir('repos');
 
-		cloneRepo('https://github.com/sveltejs/svelte.git');
-		cloneRepo('https://github.com/sveltejs/kit.git');
+		// TODO we can probably make this a bit nicer/more generic
+		{
+			let branch;
+			if (svelte_version === 'v03') {
+				branch = 'version-3';
+			} else if (svelte_version === 'v04') {
+				branch = 'svelte-4';
+			}
+			cloneRepo('https://github.com/sveltejs/svelte.git', branch);
+		}
+		{
+			let branch;
+			if (svelte_version === 'v01') {
+				branch = 'version-1';
+			}
+			cloneRepo('https://github.com/sveltejs/kit.git', branch);
+		}
 
 		process.chdir(cwd);
 
@@ -145,16 +168,23 @@ function replace_strings(obj: any, replace: (str: string) => string) {
 	}
 }
 
-function cloneRepo(repo: string) {
+function cloneRepo(repo: string, branch?: string) {
 	const regex_result = /https:\/\/github.com\/\w+\/(\w+).git/.exec(repo);
 	if (!regex_result || regex_result.length < 2) {
 		throw new Error(`Expected https://github.com/xxx/xxx.git, but got ${repo}`);
 	}
+
 	const dirname = regex_result[1];
 	if (existsSync(dirname)) {
-		return console.log(`${dirname} exists. skipping git clone`);
+		// TODO skip if we detect that same branch is already cloned
+		rmdirSync(dirname, { recursive: true });
 	}
-	invoke('git', ['clone', '--depth', '1', repo]);
+
+	if (branch) {
+		invoke('git', ['clone', '--depth', '1', '-b', branch, repo]);
+	} else {
+		invoke('git', ['clone', '--depth', '1', repo]);
+	}
 }
 
 function invoke(cmd: string, args: string[]) {
