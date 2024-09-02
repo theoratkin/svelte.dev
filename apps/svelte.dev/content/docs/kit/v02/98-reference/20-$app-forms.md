@@ -37,17 +37,17 @@ Use this function to deserialize the response from a form submission.
 Usage:
 
 ```js
-/// errors: 7031
+// @errors: 7031
 import { deserialize } from '$app/forms';
 
 async function handleSubmit(event) {
-  const response = await fetch('/form?/action', {
-    method: 'POST',
-    body: new FormData(event.target)
-  });
+	const response = await fetch('/form?/action', {
+		method: 'POST',
+		body: new FormData(event.target)
+	});
 
-  const result = deserialize(await response.text());
-  // ...
+	const result = deserialize(await response.text());
+	// ...
 }
 ```
 

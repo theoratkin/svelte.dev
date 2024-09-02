@@ -18,11 +18,11 @@ The behavior for the `handle` options is as follows:
 - `filterSerializedResponseHeaders` behaves the same as `preload`
 
 ```js
-/// errors: 7031
+// @errors: 7031
 /// file: src/hooks.server.js
 import { sequence } from '@sveltejs/kit/hooks';
 
-/// type: import('@sveltejs/kit').Handle
+/** @type {import('@sveltejs/kit').Handle} */
 async function first({ event, resolve }) {
 	console.log('first pre-processing');
 	const result = await resolve(event, {
@@ -40,7 +40,7 @@ async function first({ event, resolve }) {
 	return result;
 }
 
-/// type: import('@sveltejs/kit').Handle
+/** @type {import('@sveltejs/kit').Handle} */
 async function second({ event, resolve }) {
 	console.log('second pre-processing');
 	const result = await resolve(event, {
@@ -53,7 +53,7 @@ async function second({ event, resolve }) {
 		},
 		filterSerializedResponseHeaders: () => {
 			// this one wins as it's the first defined in the chain
-   		console.log('second filterSerializedResponseHeaders');
+	 		console.log('second filterSerializedResponseHeaders');
 		}
 	});
 	console.log('second post-processing');

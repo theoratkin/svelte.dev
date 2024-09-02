@@ -378,7 +378,7 @@ async function get_types(code: string, statements: ts.NodeArray<ts.Statement>) {
 
 				collection.push({
 					name,
-					comment,
+					comment: cleanup_comment(comment),
 					snippet,
 					children,
 					deprecated: deprecated_notice
@@ -462,15 +462,19 @@ function munge_type_element(member: ts.TypeElement, depth = 1): Extracted | unde
 	return {
 		name,
 		snippet,
-		comment: (doc?.comment ?? '')
-			.replace(/\/\/\/ type: (.+)/g, '/** @type {$1} */')
-			.replace(/\/\/\/ errors: (.+)/g, '// @errors: $1') // see read_d_ts_file
-			.replace(/^(  )+/gm, (match: string, spaces: string) => {
-				return '\t'.repeat(match.length / 2);
-			}),
+		comment: cleanup_comment(doc?.comment),
 		bullets,
 		children
 	};
+}
+
+function cleanup_comment(comment: string = '') {
+	return comment
+		.replace(/\/\/\/ type: (.+)/g, '/** @type {$1} */')
+		.replace(/\/\/\/ errors: (.+)/g, '// @errors: $1') // see read_d_ts_file
+		.replace(/^(  )+/gm, (match: string, spaces: string) => {
+			return '\t'.repeat(match.length / 2);
+		});
 }
 
 /**

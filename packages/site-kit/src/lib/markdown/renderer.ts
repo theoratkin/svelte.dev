@@ -1030,7 +1030,7 @@ function syntax_highlight({
 				} else {
 					source = source.replace(
 						/^(?!\/\/ @)/m,
-						`${banner}\n\n// @filename: index.${language}\n` + ` // ---cut---\n`
+						`${banner}\n\n// @filename: index.${language}\n// ---cut---\n`
 					);
 				}
 			}
