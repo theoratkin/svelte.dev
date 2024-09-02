@@ -5,18 +5,46 @@ import {
 	type ModuleChild,
 	type Modules
 } from '@sveltejs/site-kit/markdown';
-import { cpSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { spawn } from 'node:child_process';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { format } from 'prettier';
 import ts from 'typescript';
 
-// Adjust these as needed for your local setup
-const svelte_repo_path = '../../../svelte';
+// Adjust the following variables as needed for your local setup
+
+/** If true, will checkout the docs from Git */
+const use_git = false;
+/** The path to your local Svelte repository (only relevant if `use_git` is `false`) */
+let svelte_repo_path = '../../../svelte';
+/** Which version of the Svelte docs to create */
 const svelte_version = 'v05';
-const sveltekit_repo_path = '../../../svelte-kit';
+/** The path to your local SvelteKit repository (only relevant if `use_git` is `false`) */
+let sveltekit_repo_path = '../../../svelte-kit';
+/** Which version of the SvelteKit docs to create */
 const sveltekit_version = 'v02';
 
 export async function sync_docs() {
+	if (use_git) {
+		// TODO support cloning branches for multiple versions of the docs
+		try {
+			mkdirSync('repos');
+		} catch {
+			// ignore if it already exists
+		}
+
+		const cwd = process.cwd();
+		process.chdir('repos');
+
+		cloneRepo('https://github.com/sveltejs/svelte.git');
+		cloneRepo('https://github.com/sveltejs/kit.git');
+
+		process.chdir(cwd);
+
+		svelte_repo_path = 'repos/svelte';
+		sveltekit_repo_path = 'repos/kit';
+	}
+
 	await sync_svelte_docs(svelte_version);
 	await sync_kit_docs(sveltekit_version);
 }
@@ -115,6 +143,34 @@ function replace_strings(obj: any, replace: (str: string) => string) {
 			obj[key] = replace(obj[key]);
 		}
 	}
+}
+
+function cloneRepo(repo: string) {
+	const regex_result = /https:\/\/github.com\/\w+\/(\w+).git/.exec(repo);
+	if (!regex_result || regex_result.length < 2) {
+		throw new Error(`Expected https://github.com/xxx/xxx.git, but got ${repo}`);
+	}
+	const dirname = regex_result[1];
+	if (existsSync(dirname)) {
+		return console.log(`${dirname} exists. skipping git clone`);
+	}
+	invoke('git', ['clone', '--depth', '1', repo]);
+}
+
+function invoke(cmd: string, args: string[]) {
+	const child = spawn(cmd, args);
+	child.stdout.on('data', (data) => console.log(data.toString()));
+	child.stderr.on('data', (data) => console.error(data.toString()));
+	return new Promise<void>((resolve) => {
+		child.on('close', (code) => {
+			if (!code) {
+				console.log(`${[cmd, ...args].join(' ')} successfully completed`);
+			}
+
+			// Give it some extra time to finish writing to stdout/stderr
+			setTimeout(() => resolve(), 100);
+		});
+	});
 }
 
 interface Extracted {
