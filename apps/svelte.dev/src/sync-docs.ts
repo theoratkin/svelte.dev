@@ -2,12 +2,11 @@ import {
 	stringify_expanded_type,
 	stringify_module,
 	stringify_type,
-	type ModuleChild
+	type ModuleChild,
+	type Modules
 } from '@sveltejs/site-kit/markdown';
-import { execSync } from 'node:child_process';
-import { cpSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { cpSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { format } from 'prettier';
 import ts from 'typescript';
 
@@ -15,16 +14,7 @@ import ts from 'typescript';
 const svelte_repo_path = '../../../svelte';
 const sveltekit_repo_path = '../../../svelte-kit';
 
-let synced = false;
-
 export async function sync_docs() {
-	if (synced) return;
-
-	synced = true;
-
-	const svelte_site_path = `${svelte_repo_path}/sites/svelte.dev`;
-	const sveltekit_site_path = `${sveltekit_repo_path}/sites/kit.svelte.dev`;
-
 	// Copy over Svelte docs
 	cpSync(
 		new URL(`../${svelte_repo_path}/documentation/docs`, import.meta.url).pathname.slice(1),
@@ -32,27 +22,7 @@ export async function sync_docs() {
 		{ recursive: true }
 	);
 
-	// Copy over SvelteKit docs
-	cpSync(
-		new URL(`../${sveltekit_repo_path}/documentation/docs`, import.meta.url).pathname.slice(1),
-		'content/docs/kit/v02',
-		{ recursive: true }
-	);
-
-	// Run script to generate type information from Svelte, then load the resulting JS file.
-	// Once everything's on svelte.dev simplify this process by using the generated JSON directly.
-	const svelte_script_path = fileURLToPath(
-		new URL(`../${svelte_site_path}/scripts/type-gen/index.js`, import.meta.url).href
-	);
-
-	execSync(`node ${svelte_script_path}`, {
-		cwd: path.dirname(path.dirname(path.dirname(svelte_script_path)))
-	});
-
-	const { modules: svelte_modules } = await import(
-		new URL(`../${svelte_site_path}/src/lib/generated/type-info.js`, import.meta.url).href
-	);
-
+	const svelte_modules = await read_svelte_types();
 	const svelte_v05_path = 'content/docs/svelte/v05/98-reference';
 	const files = readdirSync(svelte_v05_path);
 
@@ -69,21 +39,16 @@ export async function sync_docs() {
 		writeFileSync(filePath, content);
 	}
 
-	// Same for SvelteKit
-	const sveltekit_script_path = fileURLToPath(
-		new URL(`../${sveltekit_site_path}/scripts/types/index.js`, import.meta.url).href
+	// Copy over SvelteKit docs
+	cpSync(
+		new URL(`../${sveltekit_repo_path}/documentation/docs`, import.meta.url).pathname.slice(1),
+		'content/docs/kit/v02',
+		{ recursive: true }
 	);
 
-	execSync(`node ${sveltekit_script_path}`, {
-		cwd: path.dirname(path.dirname(path.dirname(sveltekit_script_path)))
-	});
-
-	// const { modules: sveltekit_modules } = await import(
-	// 	'C:/repos/svelte/svelte-kit/sites/kit.svelte.dev/src/lib/generated/type-info.js'
-	// );
 	const sveltekit_modules = await read_kit_types();
 
-	// TODO JSdoc points to kit.svelte.dev, rewrite those for now
+	// TODO JSdoc points to kit.svelte.dev structure, rewrite those for now
 	for (const module of sveltekit_modules) {
 		replace_strings(module, (str) =>
 			str
@@ -103,7 +68,7 @@ export async function sync_docs() {
 		);
 	}
 
-	const svelte_kit_types = sveltekit_modules.find((m) => m.name === '@sveltejs/kit')!.types;
+	const svelte_kit_types = sveltekit_modules.find((m) => m.name === '@sveltejs/kit')!.types!;
 	const config = svelte_kit_types.find((t) => t.name === 'Config')!;
 	const kit_config = svelte_kit_types.find((t) => t.name === 'KitConfig')!;
 
@@ -123,7 +88,7 @@ export async function sync_docs() {
 				return stringify_type(config as ModuleChild);
 			}
 			if (moduleName === 'KitConfig') {
-				return stringify_expanded_type(kit_config as ModuleChild);
+				return stringify_expanded_type(kit_config);
 			}
 
 			const module = sveltekit_modules.find((m) => m.name === moduleName);
@@ -133,40 +98,6 @@ export async function sync_docs() {
 
 		writeFileSync(filePath, content);
 	}
-
-	// const config = sveltekit_modules
-	// 	.find((m) => m.name === '@sveltejs/kit')
-	// 	.types.find((t) => t.name === 'Config');
-
-	// const kit_config = sveltekit_modules
-	// 	.find((m) => m.name === '@sveltejs/kit')
-	// 	.types.find((t) => t.name === 'KitConfig');
-
-	// write_module_to_md(
-	// 	sveltekit_modules,
-	// 	'kit',
-	// 	`<!-- @include_start KitConfig -->\n${stringify_expanded_type(kit_config)}\n<!-- @include_end KitConfig -->\n\n` +
-	// 		`<!-- @include_start Config -->\n${stringify_type(config)}\n<!-- @include_end Config -->\n\n`
-	// );
-
-	// Helper methods
-
-	// function write_module_to_md(modules, name, additional = '') {
-	// 	let content =
-	// 		'---\ntitle: Generated Reference\n---\n\n' +
-	// 		'This file is generated. Do not edit. If you are doing a translation, ' +
-	// 		'remove the include comments in the other .md files instead and replace it with the translated output.\n\n';
-
-	// 	for (const module of modules) {
-	// 		const generated = stringify_module(module);
-	// 		content += `<!-- @include_start ${module.name} -->\n${generated}\n<!-- @include_end ${module.name} -->\n\n`;
-	// 	}
-
-	// 	content += additional;
-
-	// 	mkdirSync(`content/docs/${name}/_generated`, { recursive: true });
-	// 	writeFileSync(`content/docs/${name}/_generated/reference.md`, content);
-	// }
 
 	function replace_strings(obj: any, replace: (str: string) => string) {
 		for (let key in obj) {
@@ -192,19 +123,14 @@ interface Extracted {
 }
 
 async function read_kit_types() {
-	const modules: Array<{
-		name: string;
-		comment: string;
-		exports: Extracted[];
-		types: Extracted[];
-		exempt?: boolean;
-	}> = [];
+	const modules: Modules = [];
 	const kit_base = sveltekit_repo_path + '/packages/kit/';
 
 	{
 		const code = read_d_ts_file(kit_base + 'src/types/private.d.ts');
 		const node = ts.createSourceFile('private.d.ts', code, ts.ScriptTarget.Latest, true);
 
+		// @ts-ignore
 		modules.push({
 			name: 'Private types',
 			comment: '',
@@ -212,9 +138,6 @@ async function read_kit_types() {
 		});
 	}
 
-	// const dir = fileURLToPath(
-	// 	new URL('../../../../packages/kit/src/types/synthetic', import.meta.url).href
-	// );
 	const dir = kit_base + 'src/types/synthetic';
 	for (const file of readdirSync(dir)) {
 		if (!file.endsWith('.md')) continue;
@@ -230,8 +153,34 @@ async function read_kit_types() {
 		});
 	}
 
+	return await read_types(kit_base, modules);
+}
+
+async function read_svelte_types() {
+	const modules = await read_types(svelte_repo_path + '/packages/svelte/', []);
+
+	// Remove $$_attributes from ActionReturn
+	const module_with_ActionReturn = modules.find((m) =>
+		m.types!.find((t) => t?.name === 'ActionReturn')
+	);
+	const new_children =
+		module_with_ActionReturn?.types![1].children!.filter((c) => c.name !== '$$_attributes') || [];
+
+	if (module_with_ActionReturn) {
+		module_with_ActionReturn.types![1].children = new_children;
+	}
+
+	return modules;
+}
+
+async function read_types(base: string, modules: Modules) {
 	{
-		const code = read_d_ts_file(kit_base + 'types/index.d.ts');
+		const ignore_list = [
+			'*.svelte', // ambient file import declaration
+			'svelte/types/compiler/preprocess', // legacy entrypoint
+			'svelte/types/compiler/interfaces' // legacy entrypoint
+		];
+		const code = read_d_ts_file(base + 'types/index.d.ts');
 		const node = ts.createSourceFile('index.d.ts', code, ts.ScriptTarget.Latest, true);
 
 		for (const statement of node.statements) {
@@ -239,9 +188,14 @@ async function read_kit_types() {
 				// @ts-ignore
 				const name = statement.name.text || statement.name.escapedText;
 
+				if (ignore_list.includes(name)) {
+					continue;
+				}
+
 				// @ts-ignore
 				const comment = strip_origin(statement.jsDoc?.[0].comment ?? '');
 
+				// @ts-ignore
 				modules.push({
 					name,
 					comment,
@@ -252,7 +206,7 @@ async function read_kit_types() {
 		}
 	}
 
-	modules.sort((a, b) => (a.name < b.name ? -1 : 1));
+	modules.sort((a, b) => (a.name! < b.name! ? -1 : 1));
 
 	return modules;
 }
@@ -382,7 +336,7 @@ function munge_type_element(member: ts.TypeElement, depth = 1): Extracted | unde
 	// @ts-ignore
 	const doc = member.jsDoc?.[0];
 
-	if (/private api/i.test(doc?.comment)) return;
+	if (/private api|DO NOT USE/i.test(doc?.comment)) return;
 
 	const children: Extracted[] = [];
 
@@ -465,7 +419,7 @@ function munge_type_element(member: ts.TypeElement, depth = 1): Extracted | unde
  * deployments and when developing locally
  */
 function strip_origin(str: string) {
-	return str.replace(/https:\/\/kit\.svelte\.dev/g, '');
+	return str.replace(/https:\/\/(kit\.)?svelte\.dev/g, '');
 }
 
 function read_d_ts_file(file: string) {
