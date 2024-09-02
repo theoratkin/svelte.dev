@@ -13,7 +13,7 @@
 		"check": "node scripts/update.js && svelte-kit sync && svelte-check",
 		"format": "prettier --write .",
 		"lint": "prettier --check .",
-		"sync-docs": "node scripts/sync-docs.js"
+		"sync-docs": "tsx src/sync-docs.ts"
 	},
 	"dependencies": {
 		"@codemirror/autocomplete": "^6.9.0",
@@ -87,6 +87,7 @@
 		"svelte-check": "^3.8.2",
 		"svelte-preprocess": "^5.1.4",
 		"tiny-glob": "^0.2.9",
+		"tsx": "^4.19.0",
 		"typescript": "^5.4.5",
 		"vite": "^5.2.13",
 		"vite-imagetools": "^7.0.2"
