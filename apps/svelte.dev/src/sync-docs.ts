@@ -12,22 +12,28 @@ import ts from 'typescript';
 
 // Adjust these as needed for your local setup
 const svelte_repo_path = '../../../svelte';
+const svelte_version = 'v05';
 const sveltekit_repo_path = '../../../svelte-kit';
+const sveltekit_version = 'v02';
 
 export async function sync_docs() {
-	// Copy over Svelte docs
+	await sync_svelte_docs(svelte_version);
+	await sync_kit_docs(sveltekit_version);
+}
+
+async function sync_svelte_docs(version: string) {
 	cpSync(
 		new URL(`../${svelte_repo_path}/documentation/docs`, import.meta.url).pathname.slice(1),
-		'content/docs/svelte/v05',
+		`content/docs/svelte/${version}`,
 		{ recursive: true }
 	);
 
 	const svelte_modules = await read_svelte_types();
-	const svelte_v05_path = 'content/docs/svelte/v05/98-reference';
-	const files = readdirSync(svelte_v05_path);
+	const svelte_path = `content/docs/svelte/${version}/98-reference`;
+	const files = readdirSync(svelte_path);
 
 	for (const file of files) {
-		const filePath = path.join(svelte_v05_path, file);
+		const filePath = path.join(svelte_path, file);
 		let content = readFileSync(filePath, 'utf-8');
 
 		content = content.replace(/<!-- @include (.+?) -->/g, (match, moduleName) => {
@@ -38,11 +44,12 @@ export async function sync_docs() {
 
 		writeFileSync(filePath, content);
 	}
+}
 
-	// Copy over SvelteKit docs
+async function sync_kit_docs(version: string) {
 	cpSync(
 		new URL(`../${sveltekit_repo_path}/documentation/docs`, import.meta.url).pathname.slice(1),
-		'content/docs/kit/v02',
+		`content/docs/kit/${version}`,
 		{ recursive: true }
 	);
 
@@ -76,11 +83,11 @@ export async function sync_docs() {
 		(t) => t.name !== 'Config' && t.name !== 'KitConfig'
 	);
 
-	const kit_v02_path = 'content/docs/kit/v02/98-reference';
-	const kit_files = readdirSync(kit_v02_path);
+	const kit_path = `content/docs/kit/${version}/98-reference`;
+	const kit_files = readdirSync(kit_path);
 
 	for (const file of kit_files) {
-		const filePath = path.join(kit_v02_path, file);
+		const filePath = path.join(kit_path, file);
 		let content = readFileSync(filePath, 'utf-8');
 
 		content = content.replace(/<!-- @include (.+?) -->/g, (match, moduleName) => {
@@ -98,19 +105,17 @@ export async function sync_docs() {
 
 		writeFileSync(filePath, content);
 	}
+}
 
-	function replace_strings(obj: any, replace: (str: string) => string) {
-		for (let key in obj) {
-			if (typeof obj[key] === 'object') {
-				replace_strings(obj[key], replace);
-			} else if (typeof obj[key] === 'string') {
-				obj[key] = replace(obj[key]);
-			}
+function replace_strings(obj: any, replace: (str: string) => string) {
+	for (let key in obj) {
+		if (typeof obj[key] === 'object') {
+			replace_strings(obj[key], replace);
+		} else if (typeof obj[key] === 'string') {
+			obj[key] = replace(obj[key]);
 		}
 	}
 }
-
-// copy-pasted from kit sync script, TODO use for Svelte sync script aswell
 
 interface Extracted {
 	name: string;
