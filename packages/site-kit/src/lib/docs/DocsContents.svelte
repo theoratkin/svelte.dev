@@ -5,14 +5,63 @@
 
 	interface Props {
 		contents: Document[];
+		versions: string[];
+		version: string;
 		show_ts_toggle?: boolean;
 	}
 
-	let { contents, show_ts_toggle = true }: Props = $props();
+	let { contents, versions, version, show_ts_toggle = true }: Props = $props();
+
+	let show_versions = $state(false);
+	let ul = $state<HTMLElement>();
+	$effect(() => {
+		// TODO proper keyboard navigation and focus management and stuff
+		if (show_versions) {
+			(ul!.firstElementChild as HTMLElement).focus();
+
+			const esc_handler = (e: KeyboardEvent) => {
+				if (e.key === 'Escape') {
+					show_versions = false;
+				}
+			};
+			document.addEventListener('keydown', esc_handler);
+
+			const click_outside_handler = (e: Event) => {
+				if (!ul!.contains(e.target as Node)) {
+					show_versions = false;
+				}
+			};
+			// without setTimeout, the click event will be triggered immediately by the opening click
+			setTimeout(() => document.addEventListener('click', click_outside_handler));
+
+			return () => {
+				document.removeEventListener('keydown', esc_handler);
+				document.removeEventListener('click', click_outside_handler);
+			};
+		}
+	});
 </script>
 
 <nav aria-label="Docs">
 	<ul class="sidebar">
+		<li class="dropdown">
+			<button class="dropdown-button" onclick={() => (show_versions = !show_versions)}>
+				{version}&nbsp;
+				<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M7 10l5 5 5-5H7z" fill="currentColor"></path>
+				</svg>
+			</button>
+			{#if show_versions}
+				<!-- svelte-ignore a11y_no_noninteractive_element_interactions, a11y_click_events_have_key_events -->
+				<ul bind:this={ul} class="dropdown-content" onclick={() => (show_versions = false)}>
+					{#each versions as version}
+						<li class:other={version !== version}>
+							<a href="../../{version}">{version}</a>
+						</li>
+					{/each}
+				</ul>
+			{/if}
+		</li>
 		{#each contents ?? [] as section}
 			<li>
 				<span class="section">
@@ -60,6 +109,33 @@
 		width: 100%;
 		/* columns: 2; */
 		margin: 0;
+	}
+
+	.dropdown {
+		margin-bottom: 3rem;
+	}
+
+	.dropdown-button {
+		display: flex;
+		border: 1px solid var(--sk-back-5);
+		border-radius: 0.4rem;
+		padding: 0.5rem 1.3rem;
+		background-color: var(--sk-back-1);
+	}
+
+	.dropdown-content {
+		position: absolute;
+		background-color: var(--sk-back-1);
+		margin: 0;
+		z-index: 1;
+		list-style: none;
+
+		a {
+			display: block;
+			padding: 0.5rem 1.3rem;
+			width: 6.7rem;
+			color: var(--sk-text-3);
+		}
 	}
 
 	li {
@@ -161,7 +237,7 @@
 			columns: 1;
 			padding-left: 3.2rem;
 			padding-right: 0;
-			padding-top: var(--sk-page-padding-top);
+			padding-top: calc(var(--sk-page-padding-top) - 5rem);
 			width: var(--sidebar-menu-width);
 			margin: 0 0 0 auto;
 		}
