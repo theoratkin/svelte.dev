@@ -14,14 +14,6 @@ export async function load({ params }) {
 	const regex = new RegExp(`^docs/${name}/v\\d+`);
 	const versions = new Set<string>();
 
-	// TODO temporary hack to show how the menu looks like, remove
-	if (name === 'svelte') {
-		versions.add('v3');
-		versions.add('v4');
-	} else if (name === 'kit') {
-		versions.add('v1');
-	}
-
 	for (const key in index) {
 		if (regex.test(key)) {
 			versions.add(key.split('/')[2]);

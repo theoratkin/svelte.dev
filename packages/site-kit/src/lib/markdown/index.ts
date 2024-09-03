@@ -3,7 +3,8 @@ export {
 	replace_export_type_placeholders as replaceExportTypePlaceholders,
 	stringify_module,
 	stringify_type,
-	stringify_expanded_type
+	stringify_expanded_type,
+	replace_export_type_placeholders
 } from './renderer';
 
 export {

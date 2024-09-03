@@ -1,5 +1,6 @@
 import {
 	stringify_expanded_type,
+	replace_export_type_placeholders,
 	stringify_module,
 	stringify_type,
 	type ModuleChild,
@@ -12,12 +13,14 @@ import {
 	mkdirSync,
 	readFileSync,
 	readdirSync,
+	rmSync,
 	rmdirSync,
 	writeFileSync
 } from 'node:fs';
 import path from 'node:path';
 import { format } from 'prettier';
 import ts from 'typescript';
+import glob from 'tiny-glob/sync';
 
 // Adjust the following variables as needed for your local setup
 
@@ -52,14 +55,14 @@ export async function sync_docs() {
 			} else if (svelte_version === 'v04') {
 				branch = 'svelte-4';
 			}
-			cloneRepo('https://github.com/sveltejs/svelte.git', branch);
+			await cloneRepo('https://github.com/sveltejs/svelte.git', branch);
 		}
 		{
 			let branch;
-			if (svelte_version === 'v01') {
+			if (sveltekit_version === 'v01') {
 				branch = 'version-1';
 			}
-			cloneRepo('https://github.com/sveltejs/kit.git', branch);
+			await cloneRepo('https://github.com/sveltejs/kit.git', branch);
 		}
 
 		process.chdir(cwd);
@@ -78,14 +81,13 @@ async function sync_svelte_docs(version: string) {
 		`content/docs/svelte/${version}`,
 		{ recursive: true }
 	);
+	migrate_meta_json(`content/docs/svelte/${version}`);
 
 	const svelte_modules = await read_svelte_types();
-	const svelte_path = `content/docs/svelte/${version}/98-reference`;
-	const files = readdirSync(svelte_path);
+	const files = glob(`content/docs/svelte/${version}/**/*.md`);
 
 	for (const file of files) {
-		const filePath = path.join(svelte_path, file);
-		let content = readFileSync(filePath, 'utf-8');
+		let content = readFileSync(file, 'utf-8');
 
 		content = content.replace(/<!-- @include (.+?) -->/g, (match, moduleName) => {
 			const module = svelte_modules.find((m: any) => m.name === moduleName);
@@ -93,7 +95,9 @@ async function sync_svelte_docs(version: string) {
 			return stringify_module(module);
 		});
 
-		writeFileSync(filePath, content);
+		content = await replace_export_type_placeholders(content, svelte_modules);
+
+		writeFileSync(file, content);
 	}
 }
 
@@ -103,6 +107,7 @@ async function sync_kit_docs(version: string) {
 		`content/docs/kit/${version}`,
 		{ recursive: true }
 	);
+	migrate_meta_json(`content/docs/kit/${version}`);
 
 	const sveltekit_modules = await read_kit_types();
 
@@ -134,12 +139,10 @@ async function sync_kit_docs(version: string) {
 		(t) => t.name !== 'Config' && t.name !== 'KitConfig'
 	);
 
-	const kit_path = `content/docs/kit/${version}/98-reference`;
-	const kit_files = readdirSync(kit_path);
+	const kit_files = glob(`content/docs/kit/${version}/**/*.md`);
 
 	for (const file of kit_files) {
-		const filePath = path.join(kit_path, file);
-		let content = readFileSync(filePath, 'utf-8');
+		let content = readFileSync(file, 'utf-8');
 
 		content = content.replace(/<!-- @include (.+?) -->/g, (match, moduleName) => {
 			if (moduleName === 'Config') {
@@ -154,7 +157,9 @@ async function sync_kit_docs(version: string) {
 			return stringify_module(module as any);
 		});
 
-		writeFileSync(filePath, content);
+		content = await replace_export_type_placeholders(content, sveltekit_modules);
+
+		writeFileSync(file, content);
 	}
 }
 
@@ -168,7 +173,7 @@ function replace_strings(obj: any, replace: (str: string) => string) {
 	}
 }
 
-function cloneRepo(repo: string, branch?: string) {
+async function cloneRepo(repo: string, branch?: string) {
 	const regex_result = /https:\/\/github.com\/\w+\/(\w+).git/.exec(repo);
 	if (!regex_result || regex_result.length < 2) {
 		throw new Error(`Expected https://github.com/xxx/xxx.git, but got ${repo}`);
@@ -181,9 +186,9 @@ function cloneRepo(repo: string, branch?: string) {
 	}
 
 	if (branch) {
-		invoke('git', ['clone', '--depth', '1', '-b', branch, repo]);
+		await invoke('git', ['clone', '--depth', '1', '-b', branch, repo]);
 	} else {
-		invoke('git', ['clone', '--depth', '1', repo]);
+		await invoke('git', ['clone', '--depth', '1', repo]);
 	}
 }
 
@@ -197,8 +202,8 @@ function invoke(cmd: string, args: string[]) {
 				console.log(`${[cmd, ...args].join(' ')} successfully completed`);
 			}
 
-			// Give it some extra time to finish writing to stdout/stderr
-			setTimeout(() => resolve(), 100);
+			// Give it some extra time to finish writing files to disk
+			setTimeout(() => resolve(), 500);
 		});
 	});
 }
@@ -262,6 +267,20 @@ async function read_svelte_types() {
 	}
 
 	return modules;
+}
+
+/** Older versions of the documentation did use meta.json instead of index.md */
+function migrate_meta_json(path: string) {
+	const files = glob(`${path}/**/meta.json`);
+	for (const file of files) {
+		const content = readFileSync(file, 'utf-8');
+		const meta = JSON.parse(content);
+		const new_content = `---\n${Object.entries(meta)
+			.map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
+			.join('\n')}\n---`;
+		rmSync(file);
+		writeFileSync(file.replace('meta.json', 'index.md'), new_content);
+	}
 }
 
 async function read_types(base: string, modules: Modules) {
