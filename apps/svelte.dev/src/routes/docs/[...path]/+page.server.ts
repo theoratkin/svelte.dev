@@ -10,6 +10,16 @@ export async function load({ params }) {
 	}
 
 	if (!document.body) {
+		if (!/\/v\d+/.test(params.path)) {
+			// clicked on a link like docs/svelte -> redirect to the latest version
+			const version_regex = new RegExp(`${params.path}\\/v\\d+$`);
+			const latest = Object.values(index)
+				.filter((doc) => version_regex.test(doc.slug))
+				.pop()!;
+
+			redirect(307, `/${latest.slug}`);
+		}
+
 		let child = document;
 
 		while (child.children[0]) {
