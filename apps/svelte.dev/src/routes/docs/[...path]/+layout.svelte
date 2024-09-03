@@ -7,6 +7,7 @@
 	const pageData = $derived($page.data.document);
 	const title = $derived(pageData?.metadata.title);
 	const category = $derived(pageData?.category);
+	const is_old_version = $derived(data.versions.indexOf(data.version) !== data.versions.length - 1);
 
 	let show_versions = $state(false);
 	let ul = $state<HTMLElement>();
@@ -63,6 +64,16 @@
 	</div>
 
 	<div class="page content">
+		{#if is_old_version}
+			<div class="text old-version">
+				<blockquote>
+					<p>
+						This documentation is for version {data.version.substring(1)}.
+						<a href="../../{data.versions.at(-1)}">Go to the latest docs.</a>
+					</p>
+				</blockquote>
+			</div>
+		{/if}
 		{#if category}
 			<p class="category">{category}</p>
 		{/if}
@@ -119,6 +130,10 @@
 
 	.page :global(:where(h2, h3) code) {
 		all: unset;
+	}
+
+	.old-version {
+		margin-bottom: 2rem;
 	}
 
 	.category {
