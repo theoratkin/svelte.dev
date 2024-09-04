@@ -69,18 +69,22 @@ function create_docs() {
 
 	let docs: {
 		/** The top level entries/packages: svelte/kit/etc. Key is the topic+version (e.g. 'svelte/v05') */
-		topics: Record<string, Document>;
+		topics: Record<string, Document & { latest: boolean }>;
 		/** The docs pages themselves. Key is the topic + page */
-		pages: Record<string, Document>;
+		pages: Record<string, Document & { latest: boolean }>;
 	} = { topics: {}, pages: {} };
 
 	for (const topic of index.docs.children) {
 		const pkg = topic.slug.split('/')[1];
 
 		for (const version of topic.children) {
+			const latest = version === topic.children.at(-1)!;
 			const sections = version.children;
-			const transformed_topic: Document = (docs.topics[remove_docs(version.slug)] = {
+			const transformed_topic: Document & { latest: boolean } = (docs.topics[
+				remove_docs(version.slug)
+			] = {
 				...version,
+				latest,
 				children: []
 			});
 
@@ -95,16 +99,18 @@ function create_docs() {
 
 				for (const page of pages) {
 					const slug = remove_section(page.slug);
-					const transformed_page: Document = (docs.pages[remove_docs(slug)] = {
-						...page,
-						slug,
-						next: page.next?.slug.startsWith(`docs/${pkg}/`)
-							? { slug: remove_section(page.next.slug), title: page.next.title }
-							: null,
-						prev: page.prev?.slug.startsWith(`docs/${pkg}/`)
-							? { slug: remove_section(page.prev.slug), title: page.prev.title }
-							: null
-					});
+					const transformed_page: Document & { latest: boolean } = (docs.pages[remove_docs(slug)] =
+						{
+							...page,
+							slug,
+							latest,
+							next: page.next?.slug.startsWith(`docs/${pkg}/`)
+								? { slug: remove_section(page.next.slug), title: page.next.title }
+								: null,
+							prev: page.prev?.slug.startsWith(`docs/${pkg}/`)
+								? { slug: remove_section(page.prev.slug), title: page.prev.title }
+								: null
+						});
 
 					transformed_section.children.push(transformed_page);
 				}

@@ -1,5 +1,6 @@
 import { index, docs as _docs } from '$lib/server/content';
 import { json } from '@sveltejs/kit';
+import type { Document } from '@sveltejs/site-kit';
 import { markedTransform, normalizeSlugify, removeMarkdown } from '@sveltejs/site-kit/markdown';
 import type { Block } from '@sveltejs/site-kit/search';
 
@@ -18,8 +19,9 @@ function get_href(parts: string[]) {
 async function content() {
 	const blocks: Block[] = [];
 	const breadcrumbs: string[] = [];
-	const docs = Object.values(_docs.pages).concat(
-		index.tutorial.children.flatMap((topic) =>
+	const docs: Document[] = [
+		...Object.values(_docs.pages).filter((page) => page.latest),
+		...index.tutorial.children.flatMap((topic) =>
 			topic.children.flatMap((section) =>
 				section.children.map((entry) => ({
 					...entry,
@@ -27,7 +29,7 @@ async function content() {
 				}))
 			)
 		)
-	);
+	];
 
 	for (const document of docs) {
 		const { slug, body, metadata } = document;
