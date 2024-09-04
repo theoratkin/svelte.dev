@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { blog_posts, index } from '$lib/server/content';
+import { blog_posts, docs as _docs, index } from '$lib/server/content';
 import type { NavigationLink } from '@sveltejs/site-kit';
 
 export const prerender = true;
@@ -9,8 +9,9 @@ export const GET = async () => {
 };
 
 async function get_nav_list(): Promise<NavigationLink[]> {
-	const docs = index.docs.children.map((topic) => ({
+	const docs = Object.values(_docs.topics).map((topic) => ({
 		title: topic.metadata.title,
+		path: '/' + topic.slug, // this will make the UI show a flyout menu for the docs nav entry
 		sections: topic.children.map((section) => ({
 			title: section.metadata.title,
 			sections: section.children.map((page) => ({
