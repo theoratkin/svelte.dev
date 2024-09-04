@@ -1,32 +1,47 @@
 import {
 	stringify_expanded_type,
+	replace_export_type_placeholders,
 	stringify_module,
 	stringify_type,
 	type ModuleChild,
 	type Modules
 } from '@sveltejs/site-kit/markdown';
 import { spawn } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import path from 'node:path';
+import {
+	cpSync,
+	existsSync,
+	mkdirSync,
+	readFileSync,
+	readdirSync,
+	rmSync,
+	rmdirSync,
+	writeFileSync
+} from 'node:fs';
 import { format } from 'prettier';
 import ts from 'typescript';
+import glob from 'tiny-glob/sync';
 
 // Adjust the following variables as needed for your local setup
 
-/** If true, will checkout the docs from Git */
-const use_git = false;
+/** If `true`, will checkout the docs from Git. If `false`, will use the `..._repo_path` vars to get content from your local file system */
+const use_git = true;
 /** The path to your local Svelte repository (only relevant if `use_git` is `false`) */
 let svelte_repo_path = '../../../svelte';
 /** Which version of the Svelte docs to create */
-const svelte_version = 'v05';
+const svelte_version: string = 'v05';
 /** The path to your local SvelteKit repository (only relevant if `use_git` is `false`) */
 let sveltekit_repo_path = '../../../svelte-kit';
 /** Which version of the SvelteKit docs to create */
-const sveltekit_version = 'v02';
+const sveltekit_version: string = 'v02';
 
+/**
+ * Depending on your setup, this will either clone the Svelte and SvelteKit repositories
+ * or use the local paths you provided above to read the documentation files.
+ * It will then copy them into the `content/docs` directory and process them to replace
+ * placeholders for types with content from the generated types.
+ */
 export async function sync_docs() {
 	if (use_git) {
-		// TODO support cloning branches for multiple versions of the docs
 		try {
 			mkdirSync('repos');
 		} catch {
@@ -36,8 +51,23 @@ export async function sync_docs() {
 		const cwd = process.cwd();
 		process.chdir('repos');
 
-		cloneRepo('https://github.com/sveltejs/svelte.git');
-		cloneRepo('https://github.com/sveltejs/kit.git');
+		// TODO we can probably make this a bit nicer/more generic
+		{
+			let branch;
+			if (svelte_version === 'v03') {
+				branch = 'version-3';
+			} else if (svelte_version === 'v04') {
+				branch = 'svelte-4';
+			}
+			await cloneRepo('https://github.com/sveltejs/svelte.git', branch);
+		}
+		{
+			let branch;
+			if (sveltekit_version === 'v01') {
+				branch = 'version-1';
+			}
+			await cloneRepo('https://github.com/sveltejs/kit.git', branch);
+		}
 
 		process.chdir(cwd);
 
@@ -55,14 +85,13 @@ async function sync_svelte_docs(version: string) {
 		`content/docs/svelte/${version}`,
 		{ recursive: true }
 	);
+	migrate_meta_json(`content/docs/svelte/${version}`);
 
 	const svelte_modules = await read_svelte_types();
-	const svelte_path = `content/docs/svelte/${version}/98-reference`;
-	const files = readdirSync(svelte_path);
+	const files = glob(`content/docs/svelte/${version}/**/*.md`);
 
 	for (const file of files) {
-		const filePath = path.join(svelte_path, file);
-		let content = readFileSync(filePath, 'utf-8');
+		let content = readFileSync(file, 'utf-8');
 
 		content = content.replace(/<!-- @include (.+?) -->/g, (match, moduleName) => {
 			const module = svelte_modules.find((m: any) => m.name === moduleName);
@@ -70,7 +99,9 @@ async function sync_svelte_docs(version: string) {
 			return stringify_module(module);
 		});
 
-		writeFileSync(filePath, content);
+		content = await replace_export_type_placeholders(content, svelte_modules);
+
+		writeFileSync(file, content);
 	}
 }
 
@@ -80,6 +111,7 @@ async function sync_kit_docs(version: string) {
 		`content/docs/kit/${version}`,
 		{ recursive: true }
 	);
+	migrate_meta_json(`content/docs/kit/${version}`);
 
 	const sveltekit_modules = await read_kit_types();
 
@@ -111,12 +143,10 @@ async function sync_kit_docs(version: string) {
 		(t) => t.name !== 'Config' && t.name !== 'KitConfig'
 	);
 
-	const kit_path = `content/docs/kit/${version}/98-reference`;
-	const kit_files = readdirSync(kit_path);
+	const kit_files = glob(`content/docs/kit/${version}/**/*.md`);
 
 	for (const file of kit_files) {
-		const filePath = path.join(kit_path, file);
-		let content = readFileSync(filePath, 'utf-8');
+		let content = readFileSync(file, 'utf-8');
 
 		content = content.replace(/<!-- @include (.+?) -->/g, (match, moduleName) => {
 			if (moduleName === 'Config') {
@@ -131,7 +161,9 @@ async function sync_kit_docs(version: string) {
 			return stringify_module(module as any);
 		});
 
-		writeFileSync(filePath, content);
+		content = await replace_export_type_placeholders(content, sveltekit_modules);
+
+		writeFileSync(file, content);
 	}
 }
 
@@ -145,16 +177,23 @@ function replace_strings(obj: any, replace: (str: string) => string) {
 	}
 }
 
-function cloneRepo(repo: string) {
+async function cloneRepo(repo: string, branch?: string) {
 	const regex_result = /https:\/\/github.com\/\w+\/(\w+).git/.exec(repo);
 	if (!regex_result || regex_result.length < 2) {
 		throw new Error(`Expected https://github.com/xxx/xxx.git, but got ${repo}`);
 	}
+
 	const dirname = regex_result[1];
 	if (existsSync(dirname)) {
-		return console.log(`${dirname} exists. skipping git clone`);
+		// TODO skip if we detect that same branch is already cloned
+		rmdirSync(dirname, { recursive: true });
 	}
-	invoke('git', ['clone', '--depth', '1', repo]);
+
+	if (branch) {
+		await invoke('git', ['clone', '--depth', '1', '-b', branch, repo]);
+	} else {
+		await invoke('git', ['clone', '--depth', '1', repo]);
+	}
 }
 
 function invoke(cmd: string, args: string[]) {
@@ -167,8 +206,8 @@ function invoke(cmd: string, args: string[]) {
 				console.log(`${[cmd, ...args].join(' ')} successfully completed`);
 			}
 
-			// Give it some extra time to finish writing to stdout/stderr
-			setTimeout(() => resolve(), 100);
+			// Give it some extra time to finish writing files to disk
+			setTimeout(() => resolve(), 500);
 		});
 	});
 }
@@ -232,6 +271,20 @@ async function read_svelte_types() {
 	}
 
 	return modules;
+}
+
+/** Older versions of the documentation did use meta.json instead of index.md */
+function migrate_meta_json(path: string) {
+	const files = glob(`${path}/**/meta.json`);
+	for (const file of files) {
+		const content = readFileSync(file, 'utf-8');
+		const meta = JSON.parse(content);
+		const new_content = `---\n${Object.entries(meta)
+			.map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
+			.join('\n')}\n---`;
+		rmSync(file);
+		writeFileSync(file.replace('meta.json', 'index.md'), new_content);
+	}
 }
 
 async function read_types(base: string, modules: Modules) {
