@@ -1,28 +1,42 @@
-import { index } from '$lib/server/content';
-import { error } from '@sveltejs/kit';
+import { docs } from '$lib/server/content';
+import { error, redirect } from '@sveltejs/kit';
 
 export const prerender = true;
 
 export async function load({ params }) {
-	const [name, version] = params.path.split('/');
-	const page = index[`docs/${name}/${version}`];
+	const [name, version, page] = params.path.split('/');
+	const topic = docs.topics[`${name}/${version}`];
 
-	if (!page) {
+	if (!topic) {
+		if (!version) {
+			// clicked on a link like docs/svelte -> redirect to the latest version
+			const version_regex = new RegExp(`${params.path}\\/v\\d+$`);
+			const latest = Object.values(docs.topics)
+				.filter((doc) => version_regex.test(doc.slug))
+				.pop()!; // we take advantage of the fact that the object is ordered
+
+			redirect(307, `/${latest.children[0].children[0].slug}`);
+		}
+
 		error(404, 'Not found');
 	}
 
-	const regex = new RegExp(`^docs/${name}/v\\d+`);
-	const versions = new Set<string>();
+	if (!page) {
+		// clicked on a link like docs/svelte/v5 -> redirect to first page
+		redirect(307, `/${topic.children[0].children[0].slug}`);
+	}
 
-	for (const key in index) {
-		if (regex.test(key)) {
-			versions.add(key.split('/')[2]);
+	const versions: string[] = [];
+
+	for (const key in docs.topics) {
+		if (key.startsWith(`${name}/`)) {
+			versions.push(key.split('/')[1]);
 		}
 	}
 
 	return {
-		sections: page.children,
+		sections: topic.children,
 		version,
-		versions: Array.from(versions)
+		versions
 	};
 }

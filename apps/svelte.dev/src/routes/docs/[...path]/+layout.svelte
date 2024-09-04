@@ -21,7 +21,7 @@
 				<blockquote>
 					<p>
 						This documentation is for version {data.version.substring(1)}.
-						<a href="../../{data.versions.at(-1)}">Go to the latest docs.</a>
+						<a href="../{data.versions.at(-1)}">Go to the latest docs.</a>
 					</p>
 				</blockquote>
 			</div>

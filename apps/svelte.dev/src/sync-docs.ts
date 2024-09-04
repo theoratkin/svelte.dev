@@ -17,27 +17,31 @@ import {
 	rmdirSync,
 	writeFileSync
 } from 'node:fs';
-import path from 'node:path';
 import { format } from 'prettier';
 import ts from 'typescript';
 import glob from 'tiny-glob/sync';
 
 // Adjust the following variables as needed for your local setup
 
-/** If true, will checkout the docs from Git */
+/** If `true`, will checkout the docs from Git. If `false`, will use the `..._repo_path` vars to get content from your local file system */
 const use_git = true;
 /** The path to your local Svelte repository (only relevant if `use_git` is `false`) */
 let svelte_repo_path = '../../../svelte';
 /** Which version of the Svelte docs to create */
-const svelte_version: string = 'v04';
+const svelte_version: string = 'v05';
 /** The path to your local SvelteKit repository (only relevant if `use_git` is `false`) */
 let sveltekit_repo_path = '../../../svelte-kit';
 /** Which version of the SvelteKit docs to create */
-const sveltekit_version: string = 'v01';
+const sveltekit_version: string = 'v02';
 
+/**
+ * Depending on your setup, this will either clone the Svelte and SvelteKit repositories
+ * or use the local paths you provided above to read the documentation files.
+ * It will then copy them into the `content/docs` directory and process them to replace
+ * placeholders for types with content from the generated types.
+ */
 export async function sync_docs() {
 	if (use_git) {
-		// TODO support cloning branches for multiple versions of the docs
 		try {
 			mkdirSync('repos');
 		} catch {
@@ -89,6 +93,7 @@ async function sync_svelte_docs(version: string) {
 	for (const file of files) {
 		let content = readFileSync(file, 'utf-8');
 
+		// TODO if we settle on the sync approach we can remove this and use the > XXX syntax in the doc files again
 		content = content.replace(/<!-- @include (.+?) -->/g, (match, moduleName) => {
 			const module = svelte_modules.find((m: any) => m.name === moduleName);
 			if (!module) throw new Error('Reference not found in generated types: ' + moduleName);
@@ -144,6 +149,7 @@ async function sync_kit_docs(version: string) {
 	for (const file of kit_files) {
 		let content = readFileSync(file, 'utf-8');
 
+		// TODO if we settle on the sync approach we can remove this and use the > XXX syntax in the doc files again
 		content = content.replace(/<!-- @include (.+?) -->/g, (match, moduleName) => {
 			if (moduleName === 'Config') {
 				return stringify_type(config as ModuleChild);

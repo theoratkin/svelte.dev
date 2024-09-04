@@ -56,7 +56,7 @@
 				<ul bind:this={ul} class="dropdown-content" onclick={() => (show_versions = false)}>
 					{#each versions as version}
 						<li class:other={version !== version}>
-							<a href="../../{version}">{version}</a>
+							<a href="../{version}">{version}</a>
 						</li>
 					{/each}
 				</ul>
