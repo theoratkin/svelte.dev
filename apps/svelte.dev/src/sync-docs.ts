@@ -93,6 +93,7 @@ async function sync_svelte_docs(version: string) {
 	for (const file of files) {
 		let content = readFileSync(file, 'utf-8');
 
+		// TODO if we settle on the sync approach we can remove this and use the > XXX syntax in the doc files again
 		content = content.replace(/<!-- @include (.+?) -->/g, (match, moduleName) => {
 			const module = svelte_modules.find((m: any) => m.name === moduleName);
 			if (!module) throw new Error('Reference not found in generated types: ' + moduleName);
@@ -148,6 +149,7 @@ async function sync_kit_docs(version: string) {
 	for (const file of kit_files) {
 		let content = readFileSync(file, 'utf-8');
 
+		// TODO if we settle on the sync approach we can remove this and use the > XXX syntax in the doc files again
 		content = content.replace(/<!-- @include (.+?) -->/g, (match, moduleName) => {
 			if (moduleName === 'Config') {
 				return stringify_type(config as ModuleChild);
