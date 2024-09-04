@@ -9,13 +9,14 @@ export async function load({ params }) {
 
 	if (!topic) {
 		if (!version) {
-			// clicked on a link like docs/svelte -> redirect to the latest version
-			const version_regex = new RegExp(`${params.path}\\/v\\d+$`);
-			const latest = Object.values(docs.topics)
-				.filter((doc) => version_regex.test(doc.slug))
-				.pop()!; // we take advantage of the fact that the object is ordered
+			// maybe clicked on a link like docs/svelte -> redirect to the latest version
+			const latest = Object.values(docs.topics).find(
+				(doc) => doc.slug.startsWith(`${name}/`) && doc.latest
+			)!;
 
-			redirect(307, `/${latest.children[0].children[0].slug}`);
+			if (latest) {
+				redirect(307, `/${latest.children[0].children[0].slug}`);
+			}
 		}
 
 		error(404, 'Not found');

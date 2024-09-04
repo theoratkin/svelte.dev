@@ -21,7 +21,8 @@ async function get_nav_list(): Promise<NavigationLink[]> {
 					path: '/' + page.slug
 				}))
 			}))
-		}));
+		}))
+		.sort((a, b) => a.title.localeCompare(b.title)); // put Svelte above SvelteKit
 
 	const blog = [
 		{

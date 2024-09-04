@@ -2,6 +2,11 @@ import { docs } from '$lib/server/content';
 import { render_content } from '$lib/server/renderer';
 import { error } from '@sveltejs/kit';
 
+export function entries() {
+	// Older versions aren't crawlable, so we need to make SvelteKit aware of them
+	return Object.keys(docs.topics).map((path) => ({ path }));
+}
+
 export async function load({ params, parent }) {
 	const document = docs.pages[params.path];
 
