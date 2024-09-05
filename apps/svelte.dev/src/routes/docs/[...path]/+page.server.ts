@@ -18,7 +18,7 @@ export async function load({ params, parent }) {
 	return {
 		document: {
 			...document,
-			body: await render_content(document.file, document.body)
+			body: await render_content(document.file, document.body, !document.latest)
 		}
 	};
 }

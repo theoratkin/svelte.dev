@@ -18,6 +18,7 @@ interface RenderContentOptions {
 	twoslashBanner?: TwoslashBanner;
 	modules?: Modules;
 	cacheCodeSnippets?: boolean;
+	ignoreErrors?: boolean;
 	resolveTypeLinks?: Parameters<typeof create_type_links>['1'];
 }
 
@@ -111,6 +112,7 @@ let prettier_module: typeof import('prettier');
  * @param {TwoslashBanner} [options.twoslashBanner] - A function that returns a string to be prepended to the code snippet before running the code with twoslash. Helps in adding imports from svelte or sveltekit or whichever modules are being globally referenced in all or most code snippets.
  * @param {import('.').Modules} [options.modules] Module info generated from type-gen script. Used to create type links and type information blocks
  * @param {boolean} [options.cacheCodeSnippets] Whether to cache code snippets or not. Defaults to true.
+ * @param {boolean} [options.ignoreErrors] Whether to ignore type check errors from twoslash or not. Defaults to false.
  * @param {Parameters<typeof create_type_links>['1']} [options.resolveTypeLinks] Resolve types into its slugs(used on the page itself).
  */
 export async function render_content_markdown(
@@ -120,6 +122,7 @@ export async function render_content_markdown(
 		twoslashBanner,
 		modules = [],
 		cacheCodeSnippets = true,
+		ignoreErrors = false,
 		resolveTypeLinks
 	}: RenderContentOptions = {}
 ) {
@@ -159,6 +162,7 @@ export async function render_content_markdown(
 				language,
 				source,
 				twoslashBanner,
+				ignoreErrors,
 				options
 			});
 
@@ -999,6 +1003,7 @@ function syntax_highlight({
 	language,
 	highlighter,
 	twoslashBanner,
+	ignoreErrors,
 	options
 }: {
 	source: string;
@@ -1006,6 +1011,7 @@ function syntax_highlight({
 	language: string;
 	highlighter: Awaited<ReturnType<typeof import('shiki-twoslash').createShikiHighlighter>>;
 	twoslashBanner?: TwoslashBanner;
+	ignoreErrors?: boolean;
 	options: SnippetOptions;
 }) {
 	let html = '';
@@ -1036,6 +1042,7 @@ function syntax_highlight({
 			}
 
 			const twoslash = twoslash_module.runTwoSlash(source, language, {
+				defaultOptions: ignoreErrors ? { noErrors: true } : undefined,
 				defaultCompilerOptions: {
 					allowJs: true,
 					checkJs: true,

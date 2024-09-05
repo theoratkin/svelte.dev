@@ -19,7 +19,7 @@ export async function load({ params }) {
 		path: `/${post.slug}`,
 		date: post.date,
 		date_formatted: post.date_formatted,
-		body: await render_content(post.file, post.body),
+		body: await render_content(post.file, post.body, false),
 		authors: post.authors,
 		sections: post.sections
 	};

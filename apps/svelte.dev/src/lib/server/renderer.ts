@@ -1,8 +1,10 @@
 import { renderContentMarkdown } from '@sveltejs/site-kit/markdown';
 
-export const render_content = (filename: string, body: string) =>
+export const render_content = (filename: string, body: string, ignoreErrors: boolean) =>
 	renderContentMarkdown(filename, body, {
 		cacheCodeSnippets: true,
+
+		ignoreErrors,
 
 		// TODO these didn't work for a while in the old sites, too, investigate bringing back this functionality at some point
 		// resolveTypeLinks: (module_name, type_name) => {
