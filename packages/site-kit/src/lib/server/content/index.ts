@@ -31,12 +31,21 @@ export async function create_index(
 				'<code>$1</code>'
 			);
 
-		const sections = Array.from(body.matchAll(/^##\s+(.*)$/gm)).map((match) => {
+		let sections = Array.from(body.matchAll(/^##\s+(.*)$/gm)).map((match) => {
 			const title = match[1].replace(/`/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 			const slug = slugify(title);
 
 			return { slug, title };
 		});
+		// If no sections found, try again with sub sections. This way we have a better "OnThisPage" list
+		if (sections.length === 0) {
+			sections = Array.from(body.matchAll(/^###\s+(.*)$/gm)).map((match) => {
+				const title = match[1].replace(/`/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+				const slug = slugify(title);
+
+				return { slug, title };
+			});
+		}
 
 		content[slug] = {
 			slug,
