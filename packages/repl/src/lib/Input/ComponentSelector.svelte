@@ -271,7 +271,7 @@
 	</div>
 
 	<button
-		class="add-new"
+		class="add-new raised icon"
 		on:click={add_new}
 		aria-label="add new component"
 		title="add new component"
@@ -289,6 +289,7 @@
 	.component-selector {
 		position: relative;
 		display: flex;
+		align-items: center;
 		padding: 0 1rem 0 0;
 
 		/* fake border (allows tab borders to appear above it) */
@@ -305,14 +306,14 @@
 
 	.file-tabs {
 		border: none;
+		height: 100%;
 		margin: 0;
 		white-space: nowrap;
 		overflow-x: auto;
 		overflow-y: hidden;
 	}
 
-	.file-tabs .button,
-	.add-new {
+	.file-tabs .button {
 		position: relative;
 		display: inline-flex;
 		align-items: center;
@@ -330,7 +331,9 @@
 
 	.add-new {
 		background: url(./file-new.svg) 50% 50% no-repeat;
-		background-size: 1em;
+		background-size: 1.2rem;
+		width: 3.2rem;
+		height: 3.2rem;
 	}
 
 	.file-tabs .button {
@@ -403,7 +406,7 @@
 	}
 
 	.remove:hover {
-		color: var(--sk-theme-3);
+		color: var(--sk-text-1);
 	}
 
 	.file-tabs .button.active .editable {
@@ -420,16 +423,6 @@
 
 	.file-tabs .button.drag-over {
 		cursor: move;
-	}
-
-	.add-new {
-		padding: 12px 10px 8px 8px;
-		height: 40px;
-		text-align: center;
-	}
-
-	.add-new:hover {
-		color: var(--sk-theme-3) !important;
 	}
 
 	.runes {
