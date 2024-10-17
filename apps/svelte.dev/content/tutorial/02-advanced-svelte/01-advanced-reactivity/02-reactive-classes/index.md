@@ -31,3 +31,5 @@ class Box {
 	// ...
 }
 ```
+
+> [!NOTE] In addition to `$state` and `$derived`, you can use `$state.raw` and `$derived.by` to define reactive fields.
