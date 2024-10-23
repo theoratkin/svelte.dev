@@ -295,7 +295,7 @@ export class Workspace {
 			const file = files.find((file) => file.name === name) as File;
 
 			if (file) {
-				this.#update_state(file, state);
+				this.#update_state(file, state, true);
 			} else {
 				this.states.delete(name);
 			}
@@ -314,7 +314,7 @@ export class Workspace {
 		this.#reset_diagnostics();
 	}
 
-	update_file(file: File) {
+	update_file(file: File, update_view = true) {
 		if (file.name === this.#current.name) {
 			this.#current = file;
 		}
@@ -336,7 +336,7 @@ export class Workspace {
 
 		const state = this.states.get(file.name);
 		if (state) {
-			this.#update_state(file, state);
+			this.#update_state(file, state, update_view);
 		}
 
 		this.#onupdate(file);
@@ -374,10 +374,13 @@ export class Workspace {
 				if (update.docChanged) {
 					const state = this.#view!.state!;
 
-					this.update_file({
-						...this.#current,
-						contents: state.doc.toString()
-					});
+					this.update_file(
+						{
+							...this.#current,
+							contents: state.doc.toString()
+						},
+						false
+					);
 
 					// preserve undo/redo across files
 					this.states.set(this.#current.name, state);
@@ -461,7 +464,7 @@ export class Workspace {
 		this.#view?.setState(this.#get_state(this.#current));
 	}
 
-	#update_state(file: File, state: EditorState) {
+	#update_state(file: File, state: EditorState, update_view: boolean) {
 		const existing = state.doc.toString();
 
 		if (file.contents !== existing) {
@@ -481,7 +484,7 @@ export class Workspace {
 
 			this.states.set(file.name, transaction.state);
 
-			if (file === this.#current) {
+			if (update_view && file === this.#current) {
 				this.#view?.setState(transaction.state);
 			}
 		}
