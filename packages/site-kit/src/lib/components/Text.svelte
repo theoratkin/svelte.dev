@@ -112,12 +112,15 @@
 
 		.code-block {
 			position: relative;
-			background: var(--sk-back-2);
+			background: var(--sk-back-3);
 			border: 1px solid var(--sk-back-5);
 			border-radius: var(--sk-border-radius);
 			overflow: hidden;
 			margin: calc(0.5 * var(--sk-line-height-body)) 0;
-			/* background: var(--sk-back-3); */
+
+			.dark & {
+				background: var(--sk-back-2);
+			}
 
 			@media (min-width: 767px) {
 				margin: var(--sk-line-height-body) 0;
@@ -139,8 +142,14 @@
 
 				&:has(.filename) {
 					position: relative;
-					background: var(--sk-back-3);
+					background: var(--sk-back-4);
 					padding-left: 1rem;
+				}
+
+				.dark & {
+					&:has(.filename) {
+						background: var(--sk-back-3);
+					}
 				}
 
 				&:not(:has(.filename)) {
