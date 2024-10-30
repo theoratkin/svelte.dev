@@ -69,9 +69,11 @@ jobs:
           event-type: sync-request
           client-payload: |-
             {
-              "package": "cli"
+              "package": "<YOUR_PACKAGE_NAME>"
             }
 ```
+
+`YOUR_PACKAGE_NAME` corresponds to the entry in [index.ts](./index.ts).
 
 You will need to add a `SYNC_REQUEST_TOKEN` to the repo. First, create a personal access token by going to https://github.com/settings/personal-access-tokens/new:
 
