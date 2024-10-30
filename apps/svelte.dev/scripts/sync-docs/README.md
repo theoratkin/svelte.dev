@@ -50,6 +50,7 @@ Changes to documentation in the source repos will trigger the [`sync-docs.yml`](
 To set up a new repo, create a file in that repo called `.github/workflows/sync-request.yml` with the following contents:
 
 ```yml
+# https://github.com/sveltejs/svelte.dev/blob/main/apps/svelte.dev/scripts/sync-docs/README.md
 name: Dispatch sync request
 
 on:
