@@ -61,7 +61,7 @@
 	}
 
 	.string {
-		color: var(--sk-code-string);
+		color: var(--shiki-token-string);
 	}
 
 	label {
@@ -69,7 +69,7 @@
 	}
 
 	label[for] {
-		color: var(--sk-code-string);
+		color: var(--shiki-token-string);
 	}
 
 	label :global(input[type='checkbox']) {

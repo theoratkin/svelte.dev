@@ -2,6 +2,11 @@
 title: Introduction
 ---
 
+```js
+const number = 42; // wheee
+const boolean = true; // wheee
+```
+
 ## Before we begin
 
 > [!NOTE] If you're new to Svelte or SvelteKit we recommend checking out the [interactive tutorial](/tutorial/kit).

@@ -163,18 +163,18 @@
 	}
 
 	.token {
-		color: var(--sk-code-base);
+		color: var(--shiki-color-text);
 	}
 
 	.token.string {
-		color: var(--sk-code-string);
+		color: var(--shiki-token-string);
 	}
 
 	.token.number {
-		color: var(--sk-code-number);
+		color: var(--shiki-token-constant);
 	}
 
 	.token.comment {
-		color: var(--sk-code-comment);
+		color: var(--shiki-token-comment);
 	}
 </style>

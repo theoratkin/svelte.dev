@@ -3,7 +3,7 @@
 }
 
 .cm-editor {
-	color: var(--sk-code-base);
+	color: var(--shiki-color-text);
 	background-color: transparent;
 	height: 100%;
 

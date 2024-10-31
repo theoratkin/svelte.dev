@@ -35,7 +35,7 @@
 		--error-border: rgb(242, 214, 219);
 		--warning-bg: rgb(254, 251, 218);
 		--warning-border: rgb(242, 232, 163);
-		--json-tree-string-color: var(--sk-code-string);
+		--json-tree-string-color: var(--shiki-token-string);
 		--json-tree-font-family: var(--sk-font-family-mono);
 
 		:global(.dark) & {

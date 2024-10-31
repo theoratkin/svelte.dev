@@ -281,7 +281,7 @@
 				width: 100%;
 				padding: 0.7rem 1rem;
 				box-sizing: border-box;
-				color: var(--sk-code-base);
+				color: var(--shiki-color-text);
 				border-radius: var(--sk-border-radius);
 				overflow-x: auto;
 

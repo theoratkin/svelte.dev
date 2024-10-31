@@ -8,7 +8,6 @@ import * as marked from 'marked';
 import { codeToHtml, createCssVariablesTheme } from 'shiki';
 import { transformerTwoslash } from '@shikijs/twoslash';
 import { SHIKI_LANGUAGE_MAP, slugify, smart_quotes, transform } from './utils';
-import { fileURLToPath } from 'node:url';
 
 interface SnippetOptions {
 	file: string | null;
@@ -24,9 +23,7 @@ const METADATA_REGEX =
 
 const theme = createCssVariablesTheme({
 	name: 'css-variables',
-	variablePrefix: '--shiki-',
-	variableDefaults: {},
-	fontStyle: true
+	variablePrefix: '--shiki-'
 });
 
 // Hash the contents of this file and its dependencies so that we get a new cache in case we have changed
