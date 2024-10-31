@@ -20,8 +20,8 @@ body {
 body {
 	font-family: var(--sk-font-family-body);
 	line-height: 1.5;
-	color: var(--sk-text-2);
-	background-color: var(--sk-back-1);
+	color: var(--sk-fg-2);
+	background-color: var(--sk-bg-1);
 	width: 100%;
 	tab-size: 2;
 	-moz-tab-size: 2;
@@ -36,7 +36,7 @@ body {
 }
 
 *:focus-visible {
-	outline: 2px solid var(--sk-theme-1);
+	outline: 2px solid var(--sk-fg-accent);
 	border-radius: var(--sk-border-radius);
 }
 
@@ -83,7 +83,7 @@ h2,
 h3 {
 	position: relative;
 	text-wrap: balance;
-	color: var(--sk-text-1);
+	color: var(--sk-fg-1);
 }
 
 strong {
@@ -96,8 +96,8 @@ kbd {
 	position: relative;
 	border-radius: var(--sk-border-radius);
 	white-space: nowrap;
-	color: var(--sk-text-2);
-	background: var(--sk-back-4);
+	color: var(--sk-fg-2);
+	background: var(--sk-bg-4);
 	line-height: 1.7;
 }
 
@@ -129,7 +129,7 @@ header {
 }
 
 ::selection {
-	background: var(--sk-selection-color);
+	background: var(--sk-bg-selection);
 }
 
 /*	opinionated styles --------------------- */
@@ -161,12 +161,12 @@ button {
 }
 
 button[disabled] {
-	color: var(--sk-text-4);
+	color: var(--sk-fg-4);
 }
 
 /*  links ------------------------------------- */
 a {
-	color: var(--sk-theme-1);
+	color: var(--sk-fg-accent);
 }
 
 /*  tables --------------------------------- */

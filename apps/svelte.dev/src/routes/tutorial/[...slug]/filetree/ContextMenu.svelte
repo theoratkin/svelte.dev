@@ -51,8 +51,8 @@
 	ul {
 		margin: 0;
 		padding: 0;
-		background-color: var(--sk-back-3);
-		border: 1px solid var(--sk-theme-1);
+		background-color: var(--sk-bg-3);
+		border: 1px solid var(--sk-fg-accent);
 	}
 
 	li {
@@ -61,11 +61,11 @@
 		width: 1fr;
 	}
 	li:hover {
-		background-color: var(--sk-theme-1-variant);
+		background-color: var(--sk-bg-accent);
 	}
 
 	button {
-		color: var(--sk-text-2);
+		color: var(--sk-fg-2);
 		width: 100%;
 		text-align: left;
 		border: 0px;

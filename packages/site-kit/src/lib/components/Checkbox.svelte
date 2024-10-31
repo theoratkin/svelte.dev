@@ -32,12 +32,12 @@
 		border-radius: 1em;
 		top: 0;
 		left: 0;
-		background: var(--sk-back-6);
+		background: var(--sk-bg-6);
 		box-sizing: content-box;
 	}
 
 	input[type='checkbox']:checked::before {
-		background: var(--sk-theme-1);
+		background: var(--sk-fg-accent);
 	}
 
 	input[type='checkbox']::after {

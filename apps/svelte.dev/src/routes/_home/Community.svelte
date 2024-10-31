@@ -30,7 +30,7 @@
 		font: var(--sk-font-body-small);
 		margin: 0 auto;
 		padding: 0 var(--sk-page-padding-side);
-		color: var(--sk-text-4);
+		color: var(--sk-fg-4);
 		text-align: center;
 
 		a {

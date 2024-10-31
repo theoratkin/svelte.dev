@@ -111,14 +111,14 @@
 
 	.options a {
 		display: block;
-		color: var(--sk-text-2);
+		color: var(--sk-fg-2);
 		margin: 1em -1.6rem;
 		padding: 1.6rem;
-		background-color: var(--sk-back-1);
+		background-color: var(--sk-bg-1);
 		border-radius: var(--sk-border-radius);
 
 		&:hover {
-			background-color: var(--sk-back-2);
+			background-color: var(--sk-bg-2);
 			filter: drop-shadow(1px 2px 4px rgb(0 0 0 / 0.1));
 			text-decoration: none;
 			-webkit-transform: var(--safari-fix);

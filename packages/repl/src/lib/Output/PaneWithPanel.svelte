@@ -71,7 +71,7 @@
 	.panel-heading {
 		font: var(--sk-font-ui-small);
 		text-transform: uppercase;
-		color: var(--sk-text-1);
+		color: var(--sk-fg-1);
 		flex: 1;
 		text-align: left;
 	}

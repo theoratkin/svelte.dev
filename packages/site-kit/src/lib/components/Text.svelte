@@ -107,17 +107,17 @@
 			padding: 0.2rem 0.4rem;
 			margin: 0 0.2rem;
 			top: -0.1rem;
-			background: var(--sk-back-4);
+			background: var(--sk-bg-4);
 		}
 
 		.code-block {
 			position: relative;
-			background: var(--sk-back-2);
-			border: 1px solid var(--sk-back-5);
+			background: var(--sk-bg-2);
+			border: 1px solid var(--sk-bg-5);
 			border-radius: var(--sk-border-radius);
 			overflow: hidden;
 			margin: calc(0.5 * var(--sk-line-height-body)) 0;
-			/* background: var(--sk-back-3); */
+			/* background: var(--sk-bg-3); */
 
 			@media (min-width: 767px) {
 				margin: var(--sk-line-height-body) 0;
@@ -139,7 +139,7 @@
 
 				&:has(.filename) {
 					position: relative;
-					background: var(--sk-back-3);
+					background: var(--sk-bg-3);
 					padding-left: 1rem;
 				}
 
@@ -154,7 +154,7 @@
 					top: 0.1rem;
 					flex: 1;
 					font: var(--sk-font-ui-small);
-					color: var(--sk-text-3);
+					color: var(--sk-fg-3);
 					text-overflow: ellipsis;
 					overflow: hidden;
 					white-space: nowrap;
@@ -186,7 +186,7 @@
 						align-items: center;
 						font-size: 1.2rem;
 						font-family: var(--sk-font-family-mono);
-						color: var(--sk-text-2);
+						color: var(--sk-fg-2);
 					}
 
 					&::before {
@@ -295,7 +295,7 @@
 				}
 
 				a:hover {
-					border-bottom: 1px solid var(--sk-theme-1);
+					border-bottom: 1px solid var(--sk-fg-accent);
 					text-decoration: none;
 				}
 
@@ -382,7 +382,7 @@
 				position: absolute;
 				top: 0.65em;
 				left: -1.8rem;
-				background-color: var(--sk-text-4);
+				background-color: var(--sk-fg-4);
 				width: 0.3em;
 				height: 0.3em;
 				border-radius: 50%;
@@ -412,12 +412,12 @@
 			font: var(--sk-font-body-small);
 			float: right;
 			pointer-events: all;
-			color: var(--sk-theme-1);
+			color: var(--sk-fg-accent);
 			cursor: pointer;
 		}
 
 		blockquote {
-			color: var(--sk-text-1);
+			color: var(--sk-fg-1);
 			padding: 0 0 0 4.5rem;
 
 			&.note,
@@ -453,7 +453,7 @@
 				left: 0;
 				top: 0;
 				font-family: var(--sk-font-family-heading);
-				color: var(--sk-text-4);
+				color: var(--sk-fg-4);
 			}
 
 			@media (max-width: 767px) {
@@ -513,12 +513,12 @@
 				display: flex;
 				align-items: center;
 				height: 3rem;
-				color: var(--sk-text-4);
+				color: var(--sk-fg-4);
 				font: var(--sk-font-body-small);
 				user-select: none;
 
 				&:hover {
-					color: var(--sk-text-3);
+					color: var(--sk-fg-3);
 				}
 
 				.legacy &::after {

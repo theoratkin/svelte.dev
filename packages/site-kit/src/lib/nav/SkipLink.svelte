@@ -13,9 +13,9 @@ Accessibility helper component to skip to the main content
 
 <style>
 	a {
-		background: var(--sk-back-1);
-		color: var(--sk-text-2);
-		border: 2px solid var(--sk-text-1);
+		background: var(--sk-bg-1);
+		color: var(--sk-fg-2);
+		border: 2px solid var(--sk-fg-1);
 		padding: 8px;
 		position: absolute;
 		inset-block-start: 0;

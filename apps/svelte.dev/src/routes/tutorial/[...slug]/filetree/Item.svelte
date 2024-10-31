@@ -111,7 +111,7 @@
 
 <style>
 	li {
-		--bg: var(--sk-back-3);
+		--bg: var(--sk-bg-3);
 		--inset: calc((var(--depth) * 1.2rem) + 1.5rem);
 		display: flex;
 		position: relative;
@@ -121,11 +121,11 @@
 		background: var(--bg) var(--icon) no-repeat;
 		background-position: calc(var(--inset) - 0.5rem) 50%;
 		background-size: 1.2rem;
-		color: var(--sk-text-2);
+		color: var(--sk-fg-2);
 	}
 
 	li:hover {
-		--bg: var(--sk-back-3);
+		--bg: var(--sk-bg-3);
 	}
 
 	button,
@@ -140,10 +140,10 @@
 	}
 
 	input {
-		background: var(--sk-back-1);
-		color: var(--sk-text-1) !important;
+		background: var(--sk-bg-1);
+		color: var(--sk-fg-1) !important;
 		margin: 0 0.5rem 0 calc(0.5rem + var(--inset));
-		border: 1px solid var(--sk-back-5);
+		border: 1px solid var(--sk-bg-5);
 		padding: 0 0.5rem;
 		font: inherit;
 	}
@@ -200,7 +200,7 @@
 	}
 
 	[aria-current='true'] {
-		color: var(--sk-theme-1);
+		color: var(--sk-fg-accent);
 	}
 
 	[aria-current='true']:has(:focus-visible)::after,

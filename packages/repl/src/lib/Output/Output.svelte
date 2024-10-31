@@ -157,7 +157,7 @@
 			height: 1px;
 			bottom: 0px;
 			left: 0;
-			background-color: var(--sk-back-4);
+			background-color: var(--sk-bg-4);
 		}
 	}
 
@@ -170,13 +170,13 @@
 		border: none;
 		border-bottom: 1px solid transparent;
 		padding: 0 1rem;
-		color: var(--sk-text-2, #999);
+		color: var(--sk-fg-2, #999);
 		border-radius: 0;
 	}
 
 	button.active {
-		border-bottom: 1px solid var(--sk-theme-1, --prime);
-		color: var(--sk-text-1, #333);
+		border-bottom: 1px solid var(--sk-fg-accent, --prime);
+		color: var(--sk-fg-1, #333);
 	}
 
 	div[slot] {

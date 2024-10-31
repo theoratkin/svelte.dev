@@ -84,6 +84,6 @@
 	}
 
 	.info {
-		background-color: var(--sk-text-4);
+		background-color: var(--sk-fg-4);
 	}
 </style>

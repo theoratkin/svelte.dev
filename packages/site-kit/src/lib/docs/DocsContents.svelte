@@ -58,7 +58,7 @@
 	nav {
 		top: 0;
 		left: 0;
-		color: var(--sk-text-3);
+		color: var(--sk-fg-3);
 		position: relative;
 	}
 
@@ -86,7 +86,7 @@
 		transition: color 0.2s;
 		border-bottom: none;
 		padding: 0;
-		color: var(--sk-text-2);
+		color: var(--sk-fg-2);
 		user-select: none;
 	}
 
@@ -100,7 +100,7 @@
 	}
 
 	[aria-current='page'] {
-		color: var(--sk-theme-1);
+		color: var(--sk-fg-accent);
 		text-decoration: underline;
 	}
 
@@ -133,7 +133,7 @@
 			height: var(--size);
 			top: calc(1.4rem - var(--size) * 0.5);
 			right: calc(-0.5 * var(--size));
-			background-color: var(--sk-back-1);
+			background-color: var(--sk-bg-1);
 			z-index: 2;
 			position: absolute;
 			rotate: 45deg;

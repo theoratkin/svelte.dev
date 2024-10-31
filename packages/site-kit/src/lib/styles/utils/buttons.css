@@ -10,7 +10,7 @@
 			hsla(12, 93%, 70%);
 		--sk-raised-active-color: hsla(12, 93%, 30%) hsla(12, 93%, 70%) hsla(12, 93%, 70%)
 			hsla(12, 93%, 30%);
-		background: var(--sk-theme-1-variant);
+		background: var(--sk-bg-accent);
 		color: white;
 
 		:root.dark & {
@@ -32,7 +32,7 @@
 	}
 
 	&:disabled {
-		border-color: var(--sk-back-5);
+		border-color: var(--sk-bg-5);
 		border-width: 1px;
 	}
 }
@@ -53,7 +53,7 @@ button:where(.tooltip, .tooltip-left)[aria-label]:where(:hover, :focus) {
 		width: var(--arrow-size);
 		height: var(--arrow-size);
 		position: absolute;
-		background: var(--sk-text-3);
+		background: var(--sk-fg-3);
 		top: calc(100% + var(--arrow-size) * 0.5);
 		left: calc(50% - var(--arrow-size) * 0.5);
 		rotate: 45deg;
@@ -65,8 +65,8 @@ button:where(.tooltip, .tooltip-left)[aria-label]:where(:hover, :focus) {
 		top: calc(100% + var(--arrow-size));
 		left: 50%;
 		translate: -50% 0;
-		background: var(--sk-text-3);
-		color: var(--sk-back-4);
+		background: var(--sk-fg-3);
+		color: var(--sk-bg-4);
 		padding: 0.5em 0.8em;
 		border-radius: var(--sk-border-radius);
 		font: var(--sk-font-ui-small);

@@ -329,7 +329,7 @@
 <style>
 	.iframe-container {
 		position: absolute;
-		background-color: var(--sk-back-1, white);
+		background-color: var(--sk-bg-1, white);
 		border: none;
 		width: 100%;
 		height: 100%;
@@ -348,13 +348,13 @@
 	}
 
 	button {
-		color: var(--sk-text-2);
+		color: var(--sk-fg-2);
 		font: var(--sk-font-ui-small);
 		text-transform: uppercase;
 		display: block;
 
 		&:hover {
-			color: var(--sk-text-1);
+			color: var(--sk-fg-1);
 		}
 	}
 

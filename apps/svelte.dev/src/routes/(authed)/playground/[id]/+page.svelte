@@ -215,7 +215,7 @@
 		height: calc(100% - var(--sk-nav-height) - var(--sk-banner-height));
 		height: calc(100dvh - var(--sk-nav-height) - var(--sk-banner-height));
 		overflow: hidden;
-		background-color: var(--sk-back-1);
+		background-color: var(--sk-bg-1);
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;

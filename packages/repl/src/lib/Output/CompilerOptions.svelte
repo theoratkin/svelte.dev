@@ -43,7 +43,7 @@
 		padding: 0 10px;
 		font-family: var(--sk-font-family-mono);
 		font-size: 13px;
-		color: var(--sk-text-2);
+		color: var(--sk-fg-2);
 		line-height: 1.8;
 	}
 
@@ -51,7 +51,7 @@
 		display: block;
 		padding: 0 0 0 1.25em;
 		white-space: nowrap;
-		color: var(--sk-text-3);
+		color: var(--sk-fg-3);
 		user-select: none;
 	}
 
@@ -113,16 +113,16 @@
 	}
 
 	input[type='radio'] + label:before {
-		background-color: var(--sk-text-4);
+		background-color: var(--sk-fg-4);
 		border-radius: 100%;
 		box-shadow: inset 0 0 0 0.5em rgba(255, 255, 255, 0.95);
-		border: 1px solid var(--sk-text-4);
+		border: 1px solid var(--sk-fg-4);
 	}
 
 	input[type='radio']:checked + label:before {
-		background-color: var(--sk-theme-1);
+		background-color: var(--sk-fg-accent);
 		box-shadow: inset 0 0 0 0.15em rgba(255, 255, 255, 0.95);
-		border: 1px solid var(--sk-text-4);
+		border: 1px solid var(--sk-fg-4);
 		transition: box-shadow 0.2s ease-out;
 	}
 </style>

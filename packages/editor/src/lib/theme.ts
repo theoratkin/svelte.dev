@@ -33,7 +33,7 @@ export const theme = syntaxHighlighting(
 		{ tag: t.emphasis, fontStyle: 'italic' },
 		{ tag: t.strikethrough, textDecoration: 'line-through' },
 		{ tag: t.link, color: 'var(--sk-code-base)', textDecoration: 'underline' },
-		{ tag: t.heading, fontWeight: 'bold', color: 'var(--sk-text-1)' },
+		{ tag: t.heading, fontWeight: 'bold', color: 'var(--sk-fg-1)' },
 		{ tag: [t.atom, t.bool], color: 'var(--sk-code-atom)' },
 		{ tag: [t.processingInstruction, t.string, t.inserted], color: 'var(--sk-code-string)' },
 		{ tag: t.invalid, color: '#ff008c' }

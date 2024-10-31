@@ -42,7 +42,7 @@
 	.try {
 		width: 100%;
 		margin: 0 auto;
-		color: var(--sk-text-1);
+		color: var(--sk-fg-1);
 	}
 
 	.copy {

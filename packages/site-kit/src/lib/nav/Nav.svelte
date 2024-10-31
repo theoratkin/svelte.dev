@@ -188,7 +188,7 @@ Top navigation bar for the application. It provides a slot for the left side, th
 		height: var(--sk-nav-height);
 		margin: 0 auto;
 		padding: 0 var(--sk-page-padding-side);
-		background-color: var(--sk-back-2);
+		background-color: var(--sk-bg-2);
 		font-family: var(--sk-font-family-body);
 		user-select: none;
 		isolation: isolate;
@@ -212,7 +212,7 @@ Top navigation bar for the application. It provides a slot for the left side, th
 	.current-section {
 		display: flex;
 		align-items: center;
-		color: var(--sk-text-3);
+		color: var(--sk-fg-3);
 		margin-left: 0.4em;
 		font: var(--sk-font-ui-medium);
 	}
@@ -228,7 +228,7 @@ Top navigation bar for the application. It provides a slot for the left side, th
 	}
 
 	button {
-		color: var(--sk-text-3);
+		color: var(--sk-fg-3);
 	}
 
 	.links {
@@ -237,7 +237,7 @@ Top navigation bar for the application. It provides a slot for the left side, th
 		align-items: center;
 
 		a {
-			color: var(--sk-text-2);
+			color: var(--sk-fg-2);
 			font: var(--sk-font-ui-medium);
 
 			white-space: nowrap;
@@ -248,11 +248,11 @@ Top navigation bar for the application. It provides a slot for the left side, th
 			outline-offset: -2px;
 
 			&:hover {
-				box-shadow: inset 0 -1px 0 0 var(--sk-back-5);
+				box-shadow: inset 0 -1px 0 0 var(--sk-bg-5);
 			}
 
 			&[aria-current='page'] {
-				color: var(--sk-theme-1);
+				color: var(--sk-fg-accent);
 				box-shadow: inset 0 -1px 0 0 currentColor;
 			}
 
@@ -315,7 +315,7 @@ Top navigation bar for the application. It provides a slot for the left side, th
 			position: relative;
 			display: none;
 			width: 100%;
-			background: var(--sk-back-1);
+			background: var(--sk-bg-1);
 			padding: 1rem var(--sk-page-padding-side);
 		}
 

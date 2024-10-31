@@ -208,7 +208,7 @@
 		bottom: 0;
 		height: 99.5%;
 		border-radius: 1rem 1rem 0 0;
-		background: var(--background, var(--sk-back-2));
+		background: var(--background, var(--sk-bg-2));
 		will-change: height;
 		transition: 0.3s var(--quint-out);
 		transition-property: none;
@@ -265,7 +265,7 @@
 		& :global(a) {
 			position: relative;
 			padding: 0.3rem 0;
-			color: var(--sk-text-3);
+			color: var(--sk-fg-3);
 			font: var(--sk-font-ui-medium);
 			width: 100%;
 			height: 100%;
@@ -302,8 +302,8 @@
 		justify-content: start;
 		gap: 1rem;
 		font: var(--sk-font-ui-medium);
-		color: var(--sk-text-3);
-		background-color: var(--sk-back-2);
+		color: var(--sk-fg-3);
+		background-color: var(--sk-bg-2);
 		width: 50%;
 		height: 4.8rem;
 		padding: 0 var(--sk-page-padding-side);
@@ -332,7 +332,7 @@
 		hr {
 			margin: 0.5rem 0;
 			height: 1px;
-			background: var(--sk-back-6);
+			background: var(--sk-bg-6);
 			border: none;
 		}
 	}

@@ -294,7 +294,7 @@ It appears when the user clicks on the `Search` component or presses the corresp
 
 	.search-box {
 		--padding: 1rem;
-		--background: var(--sk-back-2);
+		--background: var(--sk-bg-2);
 		/* background: var(--background); */
 		position: relative;
 		height: calc(100% - 2rem);
@@ -335,16 +335,16 @@ It appears when the user clicks on the `Search` component or presses the corresp
 			height: 6rem;
 			border: none;
 			flex-shrink: 0;
-			color: var(--sk-text-1);
-			border-bottom: 1px solid var(--sk-back-6);
+			color: var(--sk-fg-1);
+			border-bottom: 1px solid var(--sk-bg-6);
 			background: inherit;
 
 			&::selection {
-				background-color: var(--sk-back-translucent);
+				background-color: var(--sk-bg-translucent);
 			}
 
 			&::placeholder {
-				color: var(--sk-text-2);
+				color: var(--sk-fg-2);
 				opacity: 0.3;
 			}
 
@@ -359,11 +359,11 @@ It appears when the user clicks on the `Search` component or presses the corresp
 			top: 0;
 			height: 100%;
 			aspect-ratio: 1;
-			color: var(--sk-text-4);
+			color: var(--sk-fg-4);
 
 			&:hover,
 			&:focus {
-				color: var(--sk-text-3);
+				color: var(--sk-fg-3);
 			}
 
 			&:focus-visible {
@@ -379,7 +379,7 @@ It appears when the user clicks on the `Search` component or presses the corresp
 
 		&:hover,
 		&:focus {
-			color: var(--sk-text-3);
+			color: var(--sk-fg-3);
 		}
 
 		&:focus-visible {
@@ -393,7 +393,7 @@ It appears when the user clicks on the `Search` component or presses the corresp
 			text-transform: uppercase;
 			background: none;
 			font: var(--sk-font-ui-medium);
-			color: var(--sk-text-4);
+			color: var(--sk-fg-4);
 			width: 100%;
 			height: 100%;
 		}
@@ -420,11 +420,11 @@ It appears when the user clicks on the `Search` component or presses the corresp
 			gap: 1rem;
 
 			&:hover {
-				background: var(--sk-back-3);
+				background: var(--sk-bg-3);
 			}
 
 			a {
-				color: var(--sk-text-2);
+				color: var(--sk-fg-2);
 				display: block;
 				text-decoration: none;
 				margin: 0 -0.5rem;
@@ -439,16 +439,16 @@ It appears when the user clicks on the `Search` component or presses the corresp
 			button[aria-label='Delete'] {
 				width: 3.2rem;
 				height: 3.2rem;
-				color: var(--sk-text-4);
-				background-color: var(--sk-back-2);
+				color: var(--sk-fg-4);
+				background-color: var(--sk-bg-2);
 
 				&:hover {
 					outline: none;
-					color: var(--sk-text-3);
+					color: var(--sk-fg-3);
 				}
 
 				&:focus-visible {
-					color: var(--sk-text-3);
+					color: var(--sk-fg-3);
 					outline-offset: -3px;
 				}
 			}
@@ -468,7 +468,7 @@ It appears when the user clicks on the `Search` component or presses the corresp
 		background: var(--background);
 		padding: var(--padding);
 		font: var(--sk-font-ui-medium);
-		color: var(--sk-text-4);
+		color: var(--sk-fg-4);
 		text-transform: uppercase;
 		pointer-events: all;
 

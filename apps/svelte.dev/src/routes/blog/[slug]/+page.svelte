@@ -47,7 +47,7 @@
 				}
 
 				figcaption {
-					color: var(--sk-text-4);
+					color: var(--sk-fg-4);
 					font: var(--sk-font-body-small);
 				}
 			}
@@ -61,11 +61,11 @@
 				margin: 0 0 1em 1em;
 				width: 16rem;
 				z-index: 2;
-				color: var(--sk-text-4);
+				color: var(--sk-fg-4);
 				font: var(--sk-font-body-small);
 
 				p {
-					color: var(--sk-text-4);
+					color: var(--sk-fg-4);
 					font: inherit;
 				}
 			}
@@ -87,7 +87,7 @@
 				position: relative;
 				border: none;
 				height: 1px;
-				background: radial-gradient(circle at center, var(--sk-text-4), transparent);
+				background: radial-gradient(circle at center, var(--sk-fg-4), transparent);
 				margin: 7rem 0;
 				overflow: visible;
 
@@ -99,8 +99,8 @@
 					left: 50%;
 					top: 2px;
 					transform: rotate(45deg) translate(-50%, -50%);
-					background: var(--sk-back-1);
-					border: 1px solid var(--sk-text-4);
+					background: var(--sk-bg-1);
+					border: 1px solid var(--sk-fg-4);
 				}
 			}
 		}
@@ -112,7 +112,7 @@
 
 	.standfirst {
 		font: var(--sk-font-body-small);
-		color: var(--sk-text-3);
+		color: var(--sk-fg-3);
 		margin: 0 0 1em 0;
 	}
 

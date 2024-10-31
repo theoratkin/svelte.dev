@@ -15,7 +15,7 @@
 		:global {
 			a,
 			button {
-				color: var(--sk-text-2);
+				color: var(--sk-fg-2);
 				padding: 1rem;
 				display: block;
 				font: var(--sk-font-ui-medium);
@@ -28,7 +28,7 @@
 
 			a:hover,
 			button:hover {
-				background-color: var(--sk-back-4);
+				background-color: var(--sk-bg-4);
 			}
 		}
 	}

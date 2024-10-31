@@ -65,7 +65,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-color: var(--sk-back-1);
+		background-color: var(--sk-bg-1);
 		overflow: hidden;
 		box-sizing: border-box;
 		display: flex;

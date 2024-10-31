@@ -9,34 +9,21 @@
 	color-scheme: light;
 
 	/* Foreground colours */
-	--sk-text-1: hsl(0, 0%, 5%);
-	--sk-text-2: hsl(0, 0%, 12%);
-	--sk-text-3: hsl(0, 0%, 27%);
-	--sk-text-4: hsl(0, 0%, 45%);
-	--sk-theme-1: hsl(12, 93%, 43%);
+	--sk-fg-1: hsl(0, 0%, 5%);
+	--sk-fg-2: hsl(0, 0%, 12%);
+	--sk-fg-3: hsl(0, 0%, 27%);
+	--sk-fg-4: hsl(0, 0%, 45%);
+	--sk-fg-accent: hsl(12, 93%, 43%);
 
-	--sk-code-base: var(--sk-text-2);
-	--sk-code-comment: var(--sk-text-4);
+	--sk-code-base: var(--sk-fg-2);
+	--sk-code-comment: var(--sk-fg-4);
 	--sk-code-keyword: hsl(204, 100%, 38%);
-	--sk-code-function: var(--sk-theme-1);
+	--sk-code-function: var(--sk-fg-accent);
 	--sk-code-string: hsl(30, 100%, 30%);
 	--sk-code-number: hsl(120, 100%, 25%);
 	--sk-code-template-string: hsl(2, 80%, 47%);
 	--sk-code-tags: var(--sk-code-function);
 	--sk-code-important: var(--sk-code-string);
-
-	/* Background colours */
-	--sk-selection-color: hsla(204, 100%, 63%, 0.3);
-	--sk-back-1: hsl(0, 0%, 100%);
-	--sk-back-2: hsl(0, 0%, 100%);
-	--sk-back-3: hsl(0, 0%, 99%);
-	--sk-back-4: hsl(0, 0%, 95%);
-	--sk-back-5: hsl(0, 0%, 92%);
-	--sk-back-6: hsl(0, 0%, 86%);
-	--sk-theme-1-variant: var(--sk-theme-1);
-	--sk-code-diff-base: hsla(0, 0%, 0%, 0.6);
-	--sk-code-diff-inserted: hsl(120, 100%, 25%);
-	--sk-code-diff-removed: hsl(2, 80%, 47%);
 
 	--shiki-color-text: var(--sk-code-base);
 	--shiki-token-constant: var(--sk-code-base);
@@ -49,22 +36,30 @@
 	--shiki-token-punctuation: var(--sk-code-base);
 	--shiki-token-link: var(--sk-code-keyword);
 
-	--sk-text-warning: hsl(32, 95%, 44%);
+	/* Background colours */
+	--sk-bg-1: hsl(0, 0%, 100%);
+	--sk-bg-2: hsl(0, 0%, 100%);
+	--sk-bg-3: hsl(0, 0%, 99%);
+	--sk-bg-4: hsl(0, 0%, 95%);
+	--sk-bg-5: hsl(0, 0%, 92%);
+	--sk-bg-6: hsl(0, 0%, 86%);
+	--sk-bg-selection: hsla(204, 100%, 63%, 0.3);
+	--sk-bg-accent: var(--sk-fg-accent);
 
 	/* Border colors */
 
 	/* Misc */
 	--sk-scrollbar: rgba(0, 0, 0, 0.3);
 	--sk-shadow: drop-shadow(0px 0px 14px rgba(0, 0, 0, 0.1));
-	--sk-back-translucent: hsla(0, 0%, 0%, 0.1);
+	--sk-bg-translucent: hsla(0, 0%, 0%, 0.1);
 
 	/* overrides */
-	--shiki-color-background: var(--sk-back-2);
+	--shiki-color-background: var(--sk-bg-2);
 
 	/* raised buttons */
-	--sk-raised-color: var(--sk-back-4) var(--sk-back-5) var(--sk-back-5) var(--sk-back-4);
-	--sk-raised-hover-color: var(--sk-back-5) var(--sk-back-6) var(--sk-back-6) var(--sk-back-5);
-	--sk-raised-active-color: var(--sk-back-6) var(--sk-back-5) var(--sk-back-5) var(--sk-back-6);
+	--sk-raised-color: var(--sk-bg-4) var(--sk-bg-5) var(--sk-bg-5) var(--sk-bg-4);
+	--sk-raised-hover-color: var(--sk-bg-5) var(--sk-bg-6) var(--sk-bg-6) var(--sk-bg-5);
+	--sk-raised-active-color: var(--sk-bg-6) var(--sk-bg-5) var(--sk-bg-5) var(--sk-bg-6);
 
 	/* TODO move these somewhere else? */
 	--sk-raised-width: 1px 2px 2px 1px;
@@ -74,14 +69,15 @@
 :root.dark {
 	color-scheme: dark;
 
-	--sk-back-hue: 220;
+	--sk-bg-hue: 220;
 
 	/* Foreground colours */
-	--sk-text-1: hsl(var(--sk-back-hue), 10%, 90%);
-	--sk-text-2: hsl(var(--sk-back-hue), 10%, 80%);
-	--sk-text-3: hsl(var(--sk-back-hue), 10%, 65%);
-	--sk-text-4: hsl(var(--sk-back-hue), 10%, 45%);
-	--sk-theme-1: hsl(12, 94%, 62%);
+	--sk-fg-1: hsl(var(--sk-bg-hue), 10%, 90%);
+	--sk-fg-2: hsl(var(--sk-bg-hue), 10%, 80%);
+	--sk-fg-3: hsl(var(--sk-bg-hue), 10%, 65%);
+	--sk-fg-4: hsl(var(--sk-bg-hue), 10%, 45%);
+	--sk-fg-accent: hsl(12, 94%, 62%);
+
 	--sk-code-base: hsl(45, 7%, 75%);
 	--sk-code-comment: hsl(0, 0%, 55%);
 	--sk-code-keyword: hsl(204, 88%, 65%);
@@ -93,30 +89,26 @@
 	--sk-code-important: var(--sk-code-string);
 
 	/* Background colours */
-	--sk-back-1: hsl(var(--sk-back-hue), 15%, 8%);
-	--sk-back-2: hsl(var(--sk-back-hue), 15%, 15%);
-	--sk-back-3: hsl(var(--sk-back-hue), 15%, 12%);
-	--sk-back-4: hsl(var(--sk-back-hue), 15%, 22%);
-	--sk-back-5: hsl(var(--sk-back-hue), 15%, 25%);
-	--sk-back-6: hsl(var(--sk-back-hue), 15%, 32%);
-	--sk-theme-1-variant: hsl(15, 100%, 35%);
-	--sk-text-warning: hsl(32, 67%, 56%);
-	--sk-code-diff-base: hsla(0, 0%, 100%, 0.5);
-	--sk-code-diff-inserted: hsl(120, 46%, 48%);
-	--sk-code-diff-removed: hsl(2, 64%, 70%);
+	--sk-bg-1: hsl(var(--sk-bg-hue), 15%, 8%);
+	--sk-bg-2: hsl(var(--sk-bg-hue), 15%, 15%);
+	--sk-bg-3: hsl(var(--sk-bg-hue), 15%, 12%);
+	--sk-bg-4: hsl(var(--sk-bg-hue), 15%, 22%);
+	--sk-bg-5: hsl(var(--sk-bg-hue), 15%, 25%);
+	--sk-bg-6: hsl(var(--sk-bg-hue), 15%, 32%);
+	--sk-bg-accent: hsl(15, 100%, 35%);
 
 	/* Border colours */
 
 	/* Misc */
 	--sk-scrollbar: rgba(255, 255, 255, 0.3);
 	--sk-shadow: drop-shadow(1px 2px 16px rgba(0, 0, 0, 0.5));
-	--sk-back-translucent: hsla(0, 0%, 100%, 0.1);
+	--sk-bg-translucent: hsla(0, 0%, 100%, 0.1);
 
 	/* overrides */
-	--shiki-color-background: var(--sk-back-3);
+	--shiki-color-background: var(--sk-bg-3);
 
 	/* raised buttons */
-	--sk-raised-color: var(--sk-back-5) var(--sk-back-3) var(--sk-back-3) var(--sk-back-5);
-	--sk-raised-hover-color: var(--sk-back-6) var(--sk-back-3) var(--sk-back-3) var(--sk-back-6);
-	--sk-raised-active-color: var(--sk-back-3) var(--sk-back-6) var(--sk-back-6) var(--sk-back-3);
+	--sk-raised-color: var(--sk-bg-5) var(--sk-bg-3) var(--sk-bg-3) var(--sk-bg-5);
+	--sk-raised-hover-color: var(--sk-bg-6) var(--sk-bg-3) var(--sk-bg-3) var(--sk-bg-6);
+	--sk-raised-active-color: var(--sk-bg-3) var(--sk-bg-6) var(--sk-bg-6) var(--sk-bg-3);
 }

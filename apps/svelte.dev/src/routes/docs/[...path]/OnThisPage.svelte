@@ -74,7 +74,7 @@
 			}
 
 			a {
-				color: var(--sk-text-3);
+				color: var(--sk-fg-3);
 			}
 		}
 
@@ -96,10 +96,10 @@
 				padding: 0.2rem 0 0 3rem;
 				height: 3rem;
 				text-transform: uppercase;
-				color: var(--sk-text-4);
+				color: var(--sk-fg-4);
 
 				&:hover {
-					color: var(--sk-text-3);
+					color: var(--sk-fg-3);
 				}
 
 				&::before,
@@ -145,7 +145,7 @@
 
 				h3 {
 					font: var(--sk-font-ui-small);
-					color: var(--sk-text-4);
+					color: var(--sk-fg-4);
 					margin: 0;
 					display: block;
 				}
@@ -216,7 +216,7 @@
 				}
 
 				a.active {
-					color: var(--sk-text-1);
+					color: var(--sk-fg-1);
 					text-decoration: underline;
 				}
 			}

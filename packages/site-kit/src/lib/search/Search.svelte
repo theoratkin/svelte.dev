@@ -72,8 +72,8 @@ Renders a search widget which when clicked (or the corresponding keyboard shortc
 		border-radius: 3.5rem;
 		background:
 			no-repeat 0.6em 55% / 1.2em 1.2em url(../icons/search.svg),
-			var(--sk-back-4);
-		color: var(--sk-text-3);
+			var(--sk-bg-4);
+		color: var(--sk-fg-3);
 	}
 
 	input:focus + .shortcut {
@@ -82,11 +82,11 @@ Renders a search widget which when clicked (or the corresponding keyboard shortc
 
 	input::placeholder {
 		text-transform: lowercase;
-		color: var(--sk-text-3);
+		color: var(--sk-fg-3);
 	}
 
 	.shortcut {
-		color: var(--sk-text-3);
+		color: var(--sk-fg-3);
 		position: absolute;
 		top: calc(50% - 0.9rem);
 		right: 0;
@@ -100,7 +100,7 @@ Renders a search widget which when clicked (or the corresponding keyboard shortc
 
 	kbd {
 		display: none;
-		color: var(--sk-text-3);
+		color: var(--sk-fg-3);
 		font-size: inherit;
 		font-family: inherit;
 	}

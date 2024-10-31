@@ -94,7 +94,7 @@
 		padding-bottom: 0.8rem;
 		font: var(--sk-font-ui-medium);
 		text-transform: uppercase;
-		color: var(--sk-text-1);
+		color: var(--sk-fg-1);
 	}
 
 	h2 {
@@ -102,16 +102,16 @@
 		top: 0;
 		z-index: 1;
 		padding: 1rem 0;
-		background-color: var(--sk-back-2);
+		background-color: var(--sk-bg-2);
 	}
 
 	a {
 		display: flex;
 		align-items: center;
-		color: var(--sk-text-2);
+		color: var(--sk-fg-2);
 
 		&[aria-current='page'] {
-			color: var(--sk-theme-1) !important;
+			color: var(--sk-fg-accent) !important;
 		}
 	}
 </style>

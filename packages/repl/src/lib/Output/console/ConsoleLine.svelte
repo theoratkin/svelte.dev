@@ -164,8 +164,8 @@
 
 <style>
 	.line {
-		--bg: var(--sk-back-1);
-		--border: var(--sk-back-3);
+		--bg: var(--sk-bg-1);
+		--border: var(--sk-bg-3);
 		display: block;
 		position: relative;
 		width: 100%;
@@ -247,13 +247,13 @@
 		height: 1.4em;
 		padding: 0.5em;
 		border-radius: 0.4rem;
-		background-color: var(--sk-text-3, #777);
-		color: var(--sk-back-1);
+		background-color: var(--sk-fg-3, #777);
+		color: var(--sk-bg-1);
 		font-size: 1rem;
 	}
 
 	.meta {
-		color: var(--sk-text-2, #666);
+		color: var(--sk-fg-2, #666);
 		font-family: var(--sk-font-family-body) !important;
 		font-size: 12px;
 	}

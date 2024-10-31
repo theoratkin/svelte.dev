@@ -262,7 +262,7 @@
 
 	.icon {
 		position: relative;
-		color: var(--sk-text-3);
+		color: var(--sk-fg-3);
 		line-height: 1;
 		background-size: 1.8rem;
 		z-index: 999;
@@ -303,7 +303,7 @@
 
 	input {
 		background: transparent;
-		border: 1px solid var(--sk-back-4);
+		border: 1px solid var(--sk-bg-4);
 		border-radius: var(--sk-border-radius);
 		color: currentColor;
 		width: 0;
@@ -315,7 +315,7 @@
 
 	.badge {
 		position: absolute;
-		background: var(--sk-theme-1);
+		background: var(--sk-fg-accent);
 		border-radius: 50%;
 		width: 1rem;
 		height: 1rem;

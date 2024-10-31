@@ -9,13 +9,13 @@
 
 	&.cm-focused {
 		.cm-cursor {
-			border-left-color: var(--sk-text-3);
+			border-left-color: var(--sk-fg-3);
 		}
 
 		> .cm-scroller > .cm-selectionLayer .cm-selectionBackground,
 		.cm-selectionBackground,
 		.cm-content ::selection {
-			background-color: var(--sk-selection-color);
+			background-color: var(--sk-bg-selection);
 		}
 
 		.cm-matchingBracket,
@@ -29,18 +29,18 @@
 	}
 
 	.cm-gutters {
-		background: var(--sk-back-3);
+		background: var(--sk-bg-3);
 		border: none;
 		padding: 0;
 		width: 5rem;
 	}
 
 	.cm-activeLine {
-		background: var(--sk-back-translucent);
+		background: var(--sk-bg-translucent);
 	}
 
 	.cm-activeLineGutter {
-		background-color: var(--sk-back-3);
+		background-color: var(--sk-bg-3);
 	}
 
 	.cm-lineNumbers {
@@ -101,16 +101,16 @@
 
 	.cm-selectionMatch {
 		background: var(--selection-color);
-		color: var(--sk-text-2);
+		color: var(--sk-fg-2);
 	}
 
 	.cm-tooltip.cm-tooltip-autocomplete {
-		color: var(--sk-text-2) !important;
+		color: var(--sk-fg-2) !important;
 		perspective: 1px;
 
 		& > ul > li[aria-selected] {
-			background-color: var(--sk-back-4);
-			color: var(--sk-text-1) !important;
+			background-color: var(--sk-bg-4);
+			color: var(--sk-fg-1) !important;
 		}
 
 		& > ul {
@@ -119,24 +119,24 @@
 	}
 
 	.cm-panels {
-		background: var(--sk-back-4);
-		color: var(--sk-text-1);
+		background: var(--sk-bg-4);
+		color: var(--sk-fg-1);
 
 		&.cm-panels-top,
 		&.cm-panels-bottom {
-			border-top: 1px solid var(--sk-back-5);
-			border-bottom: 1px solid var(--sk-back-5);
+			border-top: 1px solid var(--sk-bg-5);
+			border-bottom: 1px solid var(--sk-bg-5);
 		}
 	}
 
 	.cm-button {
-		background: var(--sk-back-5);
+		background: var(--sk-bg-5);
 		border: 2px solid transparent;
 	}
 
 	.cm-textfield {
-		background: var(--sk-back-1);
-		color: var(--sk-text-1);
+		background: var(--sk-bg-1);
+		color: var(--sk-fg-1);
 		border: 2px solid transparent;
 	}
 
@@ -157,7 +157,7 @@
 		--warning: hsl(40 100% 70%);
 		--error: hsl(0 100% 90%);
 		border: none;
-		background: var(--sk-back-3);
+		background: var(--sk-bg-3);
 		font: var(--sk-font-ui-small);
 		max-width: calc(100vw - 10em);
 		position: relative;

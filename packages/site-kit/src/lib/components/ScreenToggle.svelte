@@ -41,16 +41,16 @@
 		justify-content: center;
 		width: 100%;
 		height: var(--sk-pane-controls-height);
-		border-top: 1px solid var(--sk-back-5);
+		border-top: 1px solid var(--sk-bg-5);
 		font: var(--sk-font-ui-small);
 		z-index: 2;
 	}
 
 	span {
-		color: var(--sk-text-4);
+		color: var(--sk-fg-4);
 	}
 
 	.active {
-		color: var(--sk-text-2);
+		color: var(--sk-fg-2);
 	}
 </style>

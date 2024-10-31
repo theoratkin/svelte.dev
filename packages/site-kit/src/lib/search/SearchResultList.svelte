@@ -80,7 +80,7 @@
 			background: var(--background);
 			top: 0;
 			display: block;
-			color: var(--sk-text-4);
+			color: var(--sk-fg-4);
 			text-transform: uppercase;
 			padding: calc(0.5 * var(--padding)) var(--padding);
 			font: var(--sk-font-ui-medium);
@@ -149,7 +149,7 @@
 		}
 
 		&:hover {
-			--background: var(--sk-back-3);
+			--background: var(--sk-bg-3);
 			text-decoration: none;
 		}
 
@@ -169,7 +169,7 @@
 			width: 100%;
 			overflow: hidden;
 			font: var(--sk-font-ui-medium);
-			color: var(--sk-text-2);
+			color: var(--sk-fg-2);
 
 			span {
 				display: inline;
@@ -177,7 +177,7 @@
 				&:not(:last-child)::after {
 					content: ' • ';
 					position: relative;
-					color: var(--sk-text-4);
+					color: var(--sk-fg-4);
 					font: var(--sk-font-ui-small);
 					top: -0.1rem;
 				}
@@ -189,7 +189,7 @@
 			width: calc(100% + 1rem);
 			left: -0.5rem;
 			overflow: hidden;
-			color: var(--sk-text-1);
+			color: var(--sk-fg-1);
 
 			&::before,
 			&::after {
@@ -212,7 +212,7 @@
 			}
 
 			span {
-				color: var(--sk-text-3);
+				color: var(--sk-fg-3);
 				font: var(--sk-font-ui-small);
 				margin: 0.4rem 0 0 0;
 			}
@@ -227,7 +227,7 @@
 		:global(mark) {
 			--highlight-color: rgba(255, 255, 0, 0.4);
 			background: none;
-			color: var(--sk-text-1);
+			color: var(--sk-fg-1);
 			background: var(--highlight-color);
 			outline: 2px solid var(--highlight-color);
 		}
