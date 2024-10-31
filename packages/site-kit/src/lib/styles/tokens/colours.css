@@ -54,8 +54,7 @@
 	--shiki-token-punctuation: var(--sk-code-base);
 	--shiki-token-link: var(--sk-code-keyword);
 
-	--sk-text-warning-hsl: 32, 95%, 44%;
-	--sk-text-warning: hsl(var(--sk-text-warning-hsl));
+	--sk-text-warning: hsl(32, 95%, 44%);
 
 	/* used for coloured backgrounds e.g. blockquotes */
 	--sk-back-translucent: hsla(0, 0%, 0%, 0.1);
@@ -101,7 +100,7 @@
 
 	--sk-theme-1-variant: hsl(15, 100%, 35%);
 
-	--sk-text-warning-hsl: 32, 67%, 56%;
+	--sk-text-warning: hsl(32, 67%, 56%);
 
 	--sk-code-base: hsl(45, 7%, 75%);
 	--sk-code-comment: hsl(0, 0%, 55%);
