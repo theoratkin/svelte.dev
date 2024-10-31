@@ -20,7 +20,7 @@
 		position: relative;
 
 		&:has(select:focus-visible) .raised.icon {
-			outline: 2px solid hsla(var(--sk-theme-1-hsl), 0.6);
+			outline: 2px solid var(--sk-theme-1);
 			border-radius: var(--sk-border-radius);
 		}
 

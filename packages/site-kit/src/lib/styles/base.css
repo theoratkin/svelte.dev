@@ -33,11 +33,10 @@ body {
 	padding: 0;
 	scrollbar-width: thin;
 	scrollbar-color: var(--sk-scrollbar) transparent;
-	-webkit-tap-highlight-color: hsla(var(--sk-theme-1-hsl), 0.1);
 }
 
 *:focus-visible {
-	outline: 2px solid hsla(var(--sk-theme-1-hsl), 0.6);
+	outline: 2px solid var(--sk-theme-1);
 	border-radius: var(--sk-border-radius);
 }
 

@@ -10,27 +10,20 @@
 
 <style>
 	.hover-menu {
+		padding: 0.5rem;
+
 		:global {
 			a,
 			button {
 				color: var(--sk-text-2);
-				padding: 1rem 1.3rem;
+				padding: 1rem;
 				display: block;
 				font: var(--sk-font-ui-medium);
 				text-decoration: none;
 				line-height: 1;
 				width: 100%;
 				text-align: left;
-
-				&:first-child {
-					padding-top: 1.3rem;
-					border-radius: var(--sk-border-radius) var(--sk-border-radius) 0 0;
-				}
-
-				&:last-child {
-					padding-bottom: 1.3rem;
-					border-radius: 0 0 var(--sk-border-radius) var(--sk-border-radius);
-				}
+				border-radius: var(--sk-border-radius-inner);
 			}
 
 			a:hover,

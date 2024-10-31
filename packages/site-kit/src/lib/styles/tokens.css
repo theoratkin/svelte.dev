@@ -19,6 +19,7 @@
 	--sk-page-padding-side: 1.6rem;
 	--sk-thick-border-width: 0.3rem;
 	--sk-border-radius: 0.4rem;
+	--sk-border-radius-inner: 0.2rem;
 	--sk-page-content-width: 76rem;
 	--sk-banner-height: 0px;
 	--sk-pane-controls-height: 4.2rem;
@@ -56,9 +57,7 @@
 	--sk-font-mono: 400 var(--sk-font-size-mono) / 1.7 var(--sk-font-family-mono);
 
 	/* Base colors */
-	--sk-theme-1-hsl: 12, 93%, 43%;
-
-	--sk-theme-1: hsl(var(--sk-theme-1-hsl));
+	--sk-theme-1: hsl(12, 93%, 43%);
 
 	--sk-back-1: hsl(0, 0%, 100%);
 	--sk-back-2: hsl(0, 0%, 100%);
@@ -152,7 +151,7 @@
 		--sk-back-5: hsl(var(--sk-back-hue), 15%, 25%);
 		--sk-back-6: hsl(var(--sk-back-hue), 15%, 32%);
 		--sk-back-translucent: hsla(0, 0%, 100%, 0.1);
-		--sk-theme-1-hsl: 12, 94%, 62%;
+		--sk-theme-1: hsl(12, 94%, 62%);
 		--sk-text-1: hsl(var(--sk-back-hue), 10%, 90%);
 		--sk-text-2: hsl(var(--sk-back-hue), 10%, 80%);
 		--sk-text-3: hsl(var(--sk-back-hue), 10%, 65%);
